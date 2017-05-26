@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE"
+    android:orientation="vertical"
+    android:paddingBottom="8dp"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/icon_bar"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_margin="8dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q1"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q2"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q3"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q4"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q5"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q6"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q7"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q8"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q9"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/icon_q10"
+            style="@style/xml_activity_main_question_icon"
+            card_view:cardBackgroundColor="@color/gray_300"
+            card_view:cardCornerRadius="@dimen/xml_activity_main_question_icon_corner_radius" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/question_message_card"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_margin="8dp"
+        android:layout_weight="0"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="8dp">
+
+        <TextView
+            android:id="@+id/text_question_message_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:text="@string/xml_text_question_message_card" />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/answer_instructions_card"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_margin="8dp"
+        android:layout_weight="1"
+        android:elevation="3dp"
+        card_view:cardCornerRadius="8dp">
+
+        <TextView
+            android:id="@+id/text_answer_instructions_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="16dp"
+            android:text="@string/xml_text_answer_instruction_card" />
+
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_weight="0"
+        android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/lets_go_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:background="@color/blue_700"
+                android:text="Got it. Let’s Go!"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:onClick="launchQuiz"
+                android:visibility="visible"/>
+
+            <Button
+                android:id="@+id/skip_button"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:background="@color/amber_400"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="1"
+                android:text="Skip..."
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/confirm_answer_button"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="8dp"
+                android:layout_weight="2"
+                android:background="@color/blue_700"
+                android:text="Confirm answer!"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:visibility="gone"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1976d2</color>
+    <color name="colorPrimaryDark">#0D47A1</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- This is the main blue color -->
+    <color name="blue_700">#1976d2</color>
+
+    <!-- This is the main orange color -->
+    <color name="amber_400">#ffca28</color>
+
+    <!-- This is the button text color -->
+    <color name="white">#FFFFFF</color>
+
+   <!-- This is the icon color for unviewed questions -->
+    <color name="gray_300">#E0E0E0</color>
+
+</resources>
