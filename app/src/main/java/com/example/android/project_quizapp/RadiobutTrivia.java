@@ -4,5 +4,5 @@ package com.example.android.project_quizapp;
  * Created by James on 5/23/2017.
  */
 
-class RadiobutTrivia extends TriviaEntry {
-}
+//class RadiobutTrivia extends TriviaEntry {
+//}

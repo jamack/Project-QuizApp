@@ -7,7 +7,7 @@ package com.example.android.project_quizapp;
 public class TextTrivia extends TriviaEntry {
 
     // Text of the correct answer.
-    private String correctAnswer;
+    protected String correctAnswer;
 
     // Text of user's answer.
     private String userAnswer;
@@ -15,7 +15,16 @@ public class TextTrivia extends TriviaEntry {
     // the TextTrivia subclass has (1) constructor
     public TextTrivia(int entryNum, String questionText, String answer) {
         super(entryNum, questionText);
-        this.correctAnswer = answer;
+        correctAnswer = answer;
+    }
+
+    /**
+     * Returns the value for the private correctAnswer field
+     *
+     * @return String with the value
+     */
+    protected String getCorrectAnswer() {
+        return correctAnswer;
     }
 
 

@@ -4,6 +4,9 @@
     <color name="colorPrimaryDark">#0D47A1</color>
     <color name="colorAccent">#FF4081</color>
 
+    <!-- This is the app's background color. Currently: Grey 50 -->
+    <color name="app_background">#FAFAFA</color>
+
     <!-- This is the main blue color -->
     <color name="blue_700">#1976d2</color>
 
