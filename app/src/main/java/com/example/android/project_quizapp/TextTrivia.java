@@ -9,21 +9,12 @@ import android.util.Log;
 public class TextTrivia extends TriviaEntry {
 
     // Text of the correct answer.
-    protected String correctAnswer;
+    private String correctAnswer;
 
     // the TextTrivia subclass has (1) constructor
     public TextTrivia(String questionText, String answer) {
         super(questionText);
         correctAnswer = answer;
-    }
-
-    /**
-     * Returns the value for the private correctAnswer field
-     *
-     * @return String with the value
-     */
-    protected String getCorrectAnswer() {
-        return correctAnswer;
     }
 
     protected void skipQuestion() {
