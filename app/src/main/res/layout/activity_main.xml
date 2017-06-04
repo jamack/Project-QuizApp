@@ -127,6 +127,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Type your answer here"
+            android:imeOptions="actionDone"
+            android:singleLine="true"
             android:visibility="gone" />
 
         <!-- This is the container view for the (4) checkbox multiple choice answers. Visibility initially set to 'gone'.
@@ -325,7 +327,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@color/blue_700"
-            android:onClick=""
+            android:onClick="sendScore"
             android:text="Share my score with a friend!"
             android:textColor="@color/white"
             android:textSize="16sp"

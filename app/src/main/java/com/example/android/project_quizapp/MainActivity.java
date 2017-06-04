@@ -1,9 +1,11 @@
 package com.example.android.project_quizapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -48,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
     // This global variable will keep track of which question/answer pairing is currently loaded or to find another question/answer.
     private int questionIndex = 0;
+
+    private int totalCorrect = 0; // Create global variable to hold number of correct answers. Will be used in grading quiz and sending score to a friend.
+    private String totalCorrectString; // Create global variable to hold the String version of the variable above. (Used at the same time, too).
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -324,14 +329,14 @@ public class MainActivity extends AppCompatActivity {
         iconBar.setVisibility(View.GONE);
         // TODO: Turn on the logo ImageView
 
-        int totalCorrect = 0; // Create local variable to hold number of correct answers
+        //int totalCorrect = 0; // Create local variable to hold number of correct answers
         // Loop through each question/answer object in questionArray and increase totalCorrect if the object's wasAnsweredCorrectly variable shows it was answered correctly ('true')
         for (int i = 0; i < questionArray.length; i++) {
             if (questionArray[i].wasAnsweredCorrectly == true) {
                 totalCorrect++;
             }
         }
-        String totalCorrectString = Integer.toString(totalCorrect);
+        totalCorrectString = Integer.toString(totalCorrect);
 
         // Change out the qmCard TextView text with the results text
         qmText.setText("Wowzers!\nYou got " + totalCorrectString + " answers right\n\nout of " + Integer.toString(questionArray.length) + " questions!" +
@@ -359,7 +364,23 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.share_button).setVisibility(View.VISIBLE);
 
 
-        // TODO: Text message intent
+        // TODO: Text message intent. This will probably have to be in form of a separate method that the 'Send Score' button can call...
+
+    }
+
+    public void sendScore(View view) {
+        // TODO: NEED TO FIGURE OUT HOW TO PASS IN THE USER'S SCORE IF THIS METHOD IS CALLED FROM A BUTTON IN XML...
+        Log.v("Mainactivity.java", "ENTERING THE sendScore() method...");
+        Intent sendScoreIntent = new Intent(Intent.ACTION_SEND); // Per "JustJava experimentation, this code block should work...
+        sendScoreIntent.setType("text/plain");
+        sendScoreIntent.putExtra(Intent.EXTRA_TEXT, "I just played \'OK, Smartypants!\' and got " + totalCorrectString + " questions right out of " + questionArray.length + ". \n\n Think you can beat me, smartypants?");
+
+        if (sendScoreIntent.resolveActivity(getPackageManager()) != null) {
+            Log.v("MainActivity.java", "Executing the resolveActivity if statement code");
+            startActivity(sendScoreIntent);
+        } else {
+            Log.v("MainActivity.java", "resolveActivity if statement came back as null!");
+        }
     }
 
 }

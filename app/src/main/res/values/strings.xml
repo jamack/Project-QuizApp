@@ -3,14 +3,19 @@
 
     <string name="xml_text_question_message_card">
         Welcome to OK, Smartypants!
-        &#xA;&#xA;Get ready to test your knowledge, then challenge your friends to see who is the biggest smartypants!
+        \n\nGet ready to test your knowledge, then challenge your friends to see who is the biggest smartypants!
     </string>
 
     <string name="xml_text_answer_instruction_card">
         How to play OK, Smartypants:
-        &#xA;&#xA;Instructions line #1
-        &#xA;&#xA;Instructions line #2
-        &#xA;&#xA;Instructions line #3
+        \n\nThere are (3) types of questions:
+        multiple choice, pick-the-best, &amp; type-an-answer.
+        \n\nMultiple choice questions have between 1 and 4 correct answers; you must select ALL the correct answers.
+        For pick-the-best questions, select a single, BEST answer. Type-an-answer questions require you to type in a 1-word answer, then hit \'Done\'.
+
+        \n\nWhen you\'ve selected or typed your answer(s), press the \'Confirm Answer!\' button.
+        \n\nIf you\'re not sure of the answer, you can press the \'Skip...\' button and come back to it later.
+        <!-- -->
     </string>
 
 </resources>
