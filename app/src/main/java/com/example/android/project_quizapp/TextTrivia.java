@@ -17,13 +17,6 @@ public class TextTrivia extends TriviaEntry {
         correctAnswer = answer;
     }
 
-    protected void skipQuestion() {
-        //TODO set wasViewed to 'true'
-        //TODO change icon color to orange
-        //TODO increment currentQuestionNum
-        //TODO call method to load next question
-    }
-
     /**
      * This method is called by the answerQuestion method in MainActivity.java.
      * It processes the user's answer by first updating the global variable to show the question was answered (i.e. not skipped),

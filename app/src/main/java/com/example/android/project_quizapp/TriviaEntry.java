@@ -9,13 +9,9 @@ class TriviaEntry {
     // Text of the question.
     protected String questionText;
 
-    // False until a TriviaEntry object is viewed in MainActivity.java. (booleans are False by default).
-    // This will be used to style the icons in the icon bar.
-    protected boolean wasViewed;
-
     // False until user input is entered with the "Confirm answer!" button. (booleans are False by default).
     // This will used to identify "skipped" answers that the user can return to.
-    protected boolean wasAnswered;
+    protected boolean wasAnswered = false;
 
     // Stores whether question was answered correctly. 'True' if correct, 'False' if incorrect.
     // Correct answers will be tallied at the end of the quiz.
@@ -33,27 +29,9 @@ class TriviaEntry {
         return questionText;
     }
 
-    // Method to store state of question as having been viewed.
-    public void questionViewed() {
-        wasViewed = true;
-    }
-
     // Method to store state of question as having been answered (as opposed to skipped).
     public void questionAnswered() {
         this.wasAnswered = true;
     }
-
-//    // THIS IS JUST A TEMPORARY TEST!! (METHOD WILL BE IN THE SUBCLASSES)
-//    protected void submitAnswer(String userAnswer) {
-//        //set wasAnswered to 'true'
-//        wasAnswered = true;
-//
-//        //check user's answer against correct answer & store whether or not question was answered correctly.
-//        if(userAnswer == correctAnswer) {
-//            wasAnsweredCorrectly = true;
-//        } else {
-//            wasAnsweredCorrectly = false;
-//        }
-//    }
 
 }
