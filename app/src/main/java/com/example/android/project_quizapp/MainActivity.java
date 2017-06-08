@@ -38,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
     // These global variables will serve as shortcuts to the various Views. (Instead of using findViewById every time).
     // will be initialized in the onCreate method, once the layout has been inflated.
     private TextView qmText; // Holds a reference to the question/message card text
+    private View qmScoreMessage; // Holds a reference to the question/message card container view for the Score Message.
+    private TextView qmScoreMessageNumCorrect; // Holds a reference to the Score Message's number of correct answers for user.
+    private TextView qmScoreMessageTotalNumQuestions; // Holds a reference to the Score Message's total number of questions.
+    private TextView qmScoreMessagePercentCorrect; // Holds a reference to the Score Message's percentage of correct answers for user.
+    private View aiTextScrollView; // Holds a reference to the question/message card ScrollView that contains the Text View.
     private TextView aiText; // Holds a reference to the answer/instructions card text
     private RadioGroup aiRadioGroup; // Holds a reference to the answer/instructions card RadioGroup (container for the Radio Buttons).
     private RadioButton aiRadioButton01; // Holds a reference to the first RadioButton answer in the answer/instructions card RadioGroup.
@@ -63,6 +68,11 @@ public class MainActivity extends AppCompatActivity {
         iconBar = (LinearLayout) findViewById(R.id.icon_bar);
         aiCard = (CardView) findViewById(R.id.answer_instructions_card);
         qmText = (TextView) findViewById(R.id.question_message_card_text);
+        qmScoreMessage = findViewById(R.id.question_message_card_score_message);
+        qmScoreMessageNumCorrect = (TextView) findViewById(R.id.score_message_number_correct_answers);
+        qmScoreMessageTotalNumQuestions = (TextView) findViewById(R.id.score_message_total_number_question);
+        qmScoreMessagePercentCorrect = (TextView) findViewById(R.id.score_message_percent_correct);
+        aiTextScrollView = findViewById(R.id.answer_instructions_card_scrollview);
         aiText = (TextView) findViewById(R.id.answer_instructions_card_text);
         aiEditText = (EditText) findViewById(R.id.answer_instructions_card_edittext);
         aiCheckBoxContainer = findViewById(R.id.answer_instructions_card_checkboxes);
@@ -86,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.confirm_answer_button).setVisibility(View.VISIBLE);
 
         // Turns off the answer/instructions card TextView to make space for the first question.
+        aiTextScrollView.setVisibility(View.GONE);
         aiText.setVisibility(View.GONE);
 
         // Call the nextQuestion method to load the first question
@@ -287,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
         aiRadioGroup.setVisibility(View.GONE);
 
         // Turn on the aiCard Text view.
+        aiTextScrollView.setVisibility(View.VISIBLE);
         aiText.setVisibility(View.VISIBLE);
 
         // Add the instructions text to the aiCard Text view.
@@ -307,6 +319,7 @@ public class MainActivity extends AppCompatActivity {
     public void revisitQuestions(View view) {
         v("MainActivity.java", "ENTERING THE revisitQuestions() method...");
         // Turn off the Last Chance screen aiCard Text so that the Next Question views can be loaded
+        aiTextScrollView.setVisibility(View.GONE);
         aiText.setVisibility(View.GONE);
 
         // Swap out the buttons
@@ -338,9 +351,19 @@ public class MainActivity extends AppCompatActivity {
         }
         totalCorrectString = Integer.toString(totalCorrect);
 
-        // Change out the qmCard TextView text with the results text
-        qmText.setText("Wowzers!\nYou got " + totalCorrectString + " answers right\n\nout of " + Integer.toString(questionArray.length) + " questions!" +
-                "\n\nThat's ");
+//        // Change out the qmCard TextView text with the results text
+//        qmText.setText("Wowzers!\nYou got " + totalCorrectString + " answers right\n\nout of " + Integer.toString(questionArray.length) + " questions!" +
+//                "\n\nThat's ");
+
+        // Swap the question/message TextView out for the scoreMessage view (RelativeLayout w/ multiple LinearLayouts).
+        qmText.setVisibility(View.GONE);
+        qmScoreMessage.setVisibility(View.VISIBLE);
+
+        // TODO: Add specific stats to the Score Message
+        qmScoreMessageNumCorrect.setText(totalCorrectString);
+        qmScoreMessageTotalNumQuestions.setText(Integer.toString(questionArray.length));
+        qmScoreMessagePercentCorrect.setText(Float.toString((int) ((float) totalCorrect / questionArray.length * 100)));
+
 
         // Turn off all the aiCard EditText, RadioGroup, & CheckBox LinearLayout container group views.
         aiEditText.setVisibility(View.GONE);
@@ -348,6 +371,7 @@ public class MainActivity extends AppCompatActivity {
         aiRadioGroup.setVisibility(View.GONE);
 
         // Turn on the aiCard Text view.
+        aiTextScrollView.setVisibility(View.VISIBLE);
         aiText.setVisibility(View.VISIBLE);
 
         // Add the sharing instruction text to the aiCard Text View
@@ -362,9 +386,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.answer_button).setVisibility(View.GONE);
         findViewById(R.id.score_answers_button).setVisibility(View.GONE);
         findViewById(R.id.share_button).setVisibility(View.VISIBLE);
-
-
-        // TODO: Text message intent. This will probably have to be in form of a separate method that the 'Send Score' button can call...
 
     }
 

@@ -82,10 +82,11 @@
     </LinearLayout>
 
     <!-- This is the card view that all questions and message text will be shown in -->
+    <!-- TODO: SIZE THIS APPROPRIATELY. HAD BEEN 136DP, BUT MAYBE 'WRAP_CONTENT' INSTEAD? -->
     <android.support.v7.widget.CardView
         android:id="@+id/question_message_card"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_weight="0"
         android:elevation="3dp"
@@ -97,7 +98,131 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="16dp"
-            android:text="@string/xml_text_question_message_card" />
+            android:text="@string/xml_text_question_message_card"
+            android:textSize="16sp" />
+
+        <!-- This is the container view for the Quiz Score message -->
+        <LinearLayout
+            android:id="@+id/question_message_card_score_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- First line of the score message -->
+            <TextView
+                android:id="@+id/score_message_line_01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wowzers!"
+                android:textSize="16sp" />
+
+            <!-- Container for second line of the score message -->
+            <LinearLayout
+                android:id="@+id/score_message_line_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/score_message_line_01"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="You got"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/score_message_number_correct_answers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:text="X"
+                    android:textColor="@color/blue_700"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="answers correct"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Container for third line of the score message -->
+            <LinearLayout
+                android:id="@+id/score_message_line_03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/score_message_line_02"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="out of"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/score_message_total_number_question"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:text="X"
+                    android:textColor="@color/amber_400"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="total questions!"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <!-- Container for fourth line of the score message -->
+            <LinearLayout
+                android:id="@+id/score_message_line_04"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/score_message_line_03"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="That\'s"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/score_message_percent_correct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="X"
+                    android:textColor="@color/blue_700"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:text="%"
+                    android:textColor="@color/blue_700"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="!"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
@@ -111,6 +236,10 @@
         android:elevation="3dp"
         card_view:cardCornerRadius="8dp">
 
+        <ScrollView
+            android:id="@+id/answer_instructions_card_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
         <!-- This is the simple text view for instructions text. Visibility initially set to 'visible' -->
         <TextView
             android:id="@+id/answer_instructions_card_text"
@@ -118,7 +247,9 @@
             android:layout_height="match_parent"
             android:layout_margin="16dp"
             android:text="@string/xml_text_answer_instruction_card"
+            android:textSize="16sp"
             android:visibility="visible" />
+        </ScrollView>
 
         <!-- This is the EditText view for typed answers. Visibility initially set to 'gone' -->
         <EditText
