@@ -23,7 +23,7 @@ class RadiobutTrivia extends TriviaEntry {
         possibleAnswers[1] = answer2Text;
         possibleAnswers[2] = answer3Text;
         possibleAnswers[3] = answer4Text;
-        // Take booleans from arguments and store them in array. Indeces correspond with the possibleAnswers array.
+        // Take booleans from arguments and store them in array. Indices correspond with the possibleAnswers array.
         this.correctAnswer = correctAnswer;
     }
 
@@ -42,6 +42,7 @@ class RadiobutTrivia extends TriviaEntry {
      * @param selectedAnswer Integer indicating which one of the (4) answers the user selected.
      */
     protected void submitAnswer(int selectedAnswer) {
+        Log.v("RadiobutTrivia.java", "ENTERING submitAnswer method for RadiobutTrivia object...");
         //set wasAnswered to 'true'
         wasAnswered = true;
 

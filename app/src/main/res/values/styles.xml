@@ -8,12 +8,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--<style name="xml_activity_main_question_icon">-->
+    <!--<item name="android:layout_width">24dp</item>-->
+    <!--<item name="android:layout_height">24dp</item>-->
+    <!--<item name="android:layout_margin">4dp</item>-->
+    <!--<item name="android:layout_weight">1</item>-->
+    <!--<item name="android:elevation">5dp</item>-->
+    <!--</style>-->
+
     <style name="xml_activity_main_question_icon">
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
         <item name="android:layout_margin">4dp</item>
         <item name="android:layout_weight">1</item>
-        <item name="android:elevation">3dp</item>
     </style>
 
 </resources>

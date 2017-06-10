@@ -1,10 +1,13 @@
 package com.example.android.project_quizapp;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -18,23 +21,23 @@ import static android.util.Log.v;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected LinearLayout iconBar; // Holds a reference to the LinearLayout container for the question icons
-    protected CardView aiCard; // Holds a reference to the answer/instructions CardView container
-    protected EditText aiEditText; // Holds a reference to the EditText view in the answer/instructions card text
-    protected View aiCheckBoxContainer; // Holds a reference to the answer/instructions card LinearLayout that contains the CheckBox views.
-    protected CheckBox aiCheckBox01; // Holds a reference to first CheckBox answer in the answer/instructions card LinearLayout container group.
-    protected CheckBox aiCheckBox02; // Holds a reference to second CheckBox answer in the answer/instructions card LinearLayout container group.
-    protected CheckBox aiCheckBox03; // Holds a reference to third CheckBox answer in the answer/instructions card LinearLayout container group.
-    protected CheckBox aiCheckBox04; // Holds a reference to fourth CheckBox answer in the answer/instructions card LinearLayout container group.
     // The following code creates an array of TriviaEntry objects (superclass) and initializes the array with (10) trivia questions & answers
     // by instantiating one of (3) different subclass objects, via their constructors.
     // Each one of these objects (TextTrivia, RadiobutTrivia, & CheckboxTrivia) corresponds to a different answer type.
     // These subclasses all inherit from the TriviaEntry superclass.
     TriviaEntry[] questionArray = new TriviaEntry[]{
             new TextTrivia("Who is the best wife in the entire world?", "Liz"),
+            new CheckboxTrivia("Which of the following are fruit?", "carrot", "kiwi", "tomato", "buddha's claw", false, true, true, true),
             new RadiobutTrivia("Which river is the longest?", "Tigris", "Congo", "Danube", "Colorado", 2),
-            new CheckboxTrivia("Which of the following are fruit?", "carrot", "kiwi", "tomato", "buddha's claw", false, true, true, true)
     };
+    private LinearLayout iconBar; // Holds a reference to the LinearLayout container for the question icons
+    private CardView aiCard; // Holds a reference to the answer/instructions CardView container
+    private EditText aiEditText; // Holds a reference to the EditText view in the answer/instructions card text
+    private View aiCheckBoxContainer; // Holds a reference to the answer/instructions card LinearLayout that contains the CheckBox views.
+    private CheckBox aiCheckBox01; // Holds a reference to first CheckBox answer in the answer/instructions card LinearLayout container group.
+    private CheckBox aiCheckBox02; // Holds a reference to second CheckBox answer in the answer/instructions card LinearLayout container group.
+    private CheckBox aiCheckBox03; // Holds a reference to third CheckBox answer in the answer/instructions card LinearLayout container group.
+    private CheckBox aiCheckBox04; // Holds a reference to fourth CheckBox answer in the answer/instructions card LinearLayout container group.
     // These global variables will serve as shortcuts to the various Views. (Instead of using findViewById every time).
     // will be initialized in the onCreate method, once the layout has been inflated.
     private TextView qmText; // Holds a reference to the question/message card text
@@ -64,6 +67,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.v("MainActivity.java", "EXECUTING THE onCreate METHOD!!");
+
+        // TODO: Once the XML layout is inflated, determine the screen width & adjust the icon spacing accordingly to maintain true circles
+        Context context = this;
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
+
         // Once the XML layout is inflated, fetch a URI Id for the question/message card and assign it to the qmText global variable
         iconBar = (LinearLayout) findViewById(R.id.icon_bar);
         aiCard = (CardView) findViewById(R.id.answer_instructions_card);
@@ -86,6 +96,21 @@ public class MainActivity extends AppCompatActivity {
         aiRadioButton03 = (RadioButton) findViewById(R.id.radiobutton_answer_03);
         aiRadioButton04 = (RadioButton) findViewById(R.id.radiobutton_answer_04);
     }
+
+    // TODO: THIS CODE (COMBINED WITH LINE IN MANIFEST) SWITCHES THE LAYOUT, BUT DOESN'T SAVE THE STATE...
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//
+//        // Checks the orientation of the screen
+//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+//            setContentView(R.layout.activity_main);
+//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+//            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+//            setContentView(R.layout.activity_main);
+//        }
+//    }
 
     // This method is called by the "Got it. Let's Go" button on the introduction screen.
     // It populates the first question & answer(s) and swaps out the buttons.
@@ -207,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             castTriviaEntry.submitAnswer(userAnswer);
             aiEditText.setText("");
         } else if (questionArray[questionIndex] instanceof CheckboxTrivia) { // Process the RadiobutTrivia answer type...
-            //TODO code to process the CheckboxTrivia answer type...
+
             CheckboxTrivia castTriviaEntry = (CheckboxTrivia) questionArray[questionIndex]; // Downcast the TriviaEntry object to a CheckboxTrivia object. (Class already checked!)
 
             // Declare a boolean array that will store whether each CheckBox object is checked. This array will be passed to the CheckboxTrivia object's submitAnswer method.
@@ -241,8 +266,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Change icon color to blue
-        int myColor = ContextCompat.getColor(this, R.color.blue_700);
-        fetchIconViewId().setCardBackgroundColor(myColor);
+//        int myColor = ContextCompat.getColor(this, R.color.app_main);
+//        fetchIconViewId().setCardBackgroundColor(myColor);
+        fetchIconViewId().setBackground(getResources().getDrawable(R.drawable.icon_answered));
 
         // Call the checkProgress() method to determine next action.
         checkProgress();
@@ -253,42 +279,46 @@ public class MainActivity extends AppCompatActivity {
     public void skipQuestion(View view) {
         v("MainActivity.java", "ENTERING THE skipQuestion method...");
         // Change icon color to orange
-        int myColor = ContextCompat.getColor(this, R.color.amber_400);
-        fetchIconViewId().setCardBackgroundColor(myColor);
+//        int myColor = ContextCompat.getColor(this, R.color.app_accent);
+//        fetchIconViewId().setCardBackgroundColor(myColor);
+        Log.v("MainActivity.java", "ABOUT TO SWAP BACKGROUND DRAWABLE FOR SKIPPED QUESTION...");
+        Drawable iconDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_skipped, null);
+        fetchIconViewId().setBackground(iconDrawable);
+        Log.v("MainActivity.java", "SWAPPED BACKGROUND DRAWABLE FOR SKIPPED QUESTION. MOVING ON...");
 
         // Call the checkProgress() method to determine next action.
         checkProgress();
     }
 
-    protected CardView fetchIconViewId() {
+    private View fetchIconViewId() {
         // questionIndex is targeted at an array and starts with 0. To be clearer which icon we're targeting, add 1 to the value for this switch
         switch (questionIndex + 1) {
             case 1:
-                return (CardView) findViewById(R.id.icon_q1);
+                return findViewById(R.id.icon_q1);
             case 2:
-                return (CardView) findViewById(R.id.icon_q2);
+                return findViewById(R.id.icon_q2);
             case 3:
-                return (CardView) findViewById(R.id.icon_q3);
+                return findViewById(R.id.icon_q3);
             case 4:
-                return (CardView) findViewById(R.id.icon_q4);
+                return findViewById(R.id.icon_q4);
             case 5:
-                return (CardView) findViewById(R.id.icon_q5);
+                return findViewById(R.id.icon_q5);
             case 6:
-                return (CardView) findViewById(R.id.icon_q6);
+                return findViewById(R.id.icon_q6);
             case 7:
-                return (CardView) findViewById(R.id.icon_q7);
+                return findViewById(R.id.icon_q7);
             case 8:
-                return (CardView) findViewById(R.id.icon_q8);
+                return findViewById(R.id.icon_q8);
             case 9:
-                return (CardView) findViewById(R.id.icon_q9);
+                return findViewById(R.id.icon_q9);
             case 10:
-                return (CardView) findViewById(R.id.icon_q10);
+                return findViewById(R.id.icon_q10);
         }
-        return (CardView) findViewById(R.id.icon_q1); // CAN I SOMEHOW RETURN NULL OR CATCH AN EXCEPTION IF NOT ONE OF THE ABOVE VALUES? NOTIFY THE USER?
+        return findViewById(R.id.icon_q1); // CAN I SOMEHOW RETURN NULL OR CATCH AN EXCEPTION IF NOT ONE OF THE ABOVE VALUES? NOTIFY THE USER?
     }
 
-    protected void lastChance() {
-        v("MainActivity.java", "ENTERING THE lastChance() method...");
+    private void lastChance() {
+        Log.v("MainActivity.java", "ENTERING THE lastChance() method...");
         // Switch qmCard text to message that questions have been skipped.
         qmText.setText("Nice work! You've made your way through all the questions!");
 
@@ -336,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
         gradeQuiz();
     }
 
-    public void gradeQuiz() {
+    private void gradeQuiz() {
         v("MainActivity.java", "ENTERING THE gradeQuiz() method...");
         // Turn off the LinearLayout container view for the icon bar
         iconBar.setVisibility(View.GONE);
@@ -359,7 +389,7 @@ public class MainActivity extends AppCompatActivity {
         qmText.setVisibility(View.GONE);
         qmScoreMessage.setVisibility(View.VISIBLE);
 
-        // TODO: Add specific stats to the Score Message
+        // Add specific stats to the Score Message
         qmScoreMessageNumCorrect.setText(totalCorrectString);
         qmScoreMessageTotalNumQuestions.setText(Integer.toString(questionArray.length));
         qmScoreMessagePercentCorrect.setText(Float.toString((int) ((float) totalCorrect / questionArray.length * 100)));
@@ -385,6 +415,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.confirm_answer_button).setVisibility(View.GONE);
         findViewById(R.id.answer_button).setVisibility(View.GONE);
         findViewById(R.id.score_answers_button).setVisibility(View.GONE);
+        findViewById(R.id.revisit_button).setVisibility(View.GONE);
         findViewById(R.id.share_button).setVisibility(View.VISIBLE);
 
     }
