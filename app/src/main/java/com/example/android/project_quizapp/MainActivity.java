@@ -2,7 +2,6 @@ package com.example.android.project_quizapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
@@ -17,28 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.ArrayList;
 
 import static android.util.Log.v;
 
 public class MainActivity extends AppCompatActivity {
 
-    // The following code creates an array of TriviaEntry objects (superclass) and initializes the array with (10) trivia questions & answers
-    // by instantiating one of (3) different subclass objects, via their constructors.
-    // Each one of these objects (TextTrivia, RadiobutTrivia, & CheckboxTrivia) corresponds to a different answer type.
-    // These subclasses all inherit from the TriviaEntry superclass.
-    TriviaEntry[] questionArray = new TriviaEntry[]{
-            new CheckboxTrivia("Which of the following are fruit?", "carrot", "kiwi", "tomato", "buddha's claw", false, true, true, true),
-            new RadiobutTrivia("Which river is the longest?", "Tigris", "Congo", "Danube", "Colorado", 2),
-            new TextTrivia("Which of the visible colors has the shortest wavelength?\n\n(Enter answer with all lowercase letters)", "violet"),
-            new RadiobutTrivia("Which of these is the hardiest, toughest animal?", "Cockroach", "Hippopotamus", "Tardigrade", "Camel", 3),
-            new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true),
-            new RadiobutTrivia("Which of these companies is the oldest?", "CIGNA", "Dupont", "Colgate", "Jim Beam", 1),
-            new TextTrivia("What is the highest grossing movie of all time (adjusted for inflation)?\n\n(Enter answer with all lowercase letters)", "gone with the wind"),
-            new CheckboxTrivia("Which of the following are among the world's 5 most widely spoken languages?", "Bengali", "English", "Portuguese", "Arabic", false, true, false, true),
-            new RadiobutTrivia("Which of these lakes is the largest - by volume?", "Lake Baikal", "Lake Michigan", "Lake Tanganikya", "Lake Superior", 1),
-            new CheckboxTrivia("Which of the following are classes/categories of rock?", "Metamorphic", "Obsidian", "Igneous", "Sedimentary", true, false, true, true)
-    };
+    // The following code creates an ArrayList of TriviaEntry objects (superclass for (3) subclasses - one for each type of answer).
+    // These will be the Objects that contain much of the app's "state".
+    // The ArrayList needs to be initialized via its methods, which must take place within one of my methods...
+    ArrayList<TriviaEntry> questionArray = new ArrayList<TriviaEntry>();
 
     // These global variables will serve as shortcuts to the various Views. (Instead of using findViewById every time).
     // will be initialized in the onCreate method, once the layout has been inflated.
@@ -75,6 +63,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // The following code initializes the (global) questionArray ArrayList with (10) trivia questions & answers.
+        // The questionArray ArrayList is declared as being comprised of the TriviaEntry superclass.
+        // The following code instantiates one of (3) different subclass objects, via their constructors.
+        // Each one of these objects (TextTrivia, RadiobutTrivia, & CheckboxTrivia) corresponds to a different answer type.
+        // These subclasses all inherit from the TriviaEntry superclass.
+
+        questionArray.add(new CheckboxTrivia("Which of the following are fruit?", "carrot", "kiwi", "tomato", "buddha's claw", false, true, true, true));
+        questionArray.add(new RadiobutTrivia("Which river is the longest?", "Tigris", "Congo", "Danube", "Colorado", 2));
+        questionArray.add(new TextTrivia("Which of the visible colors has the shortest wavelength?\n\n(Enter answer with all lowercase letters)", "violet"));
+        questionArray.add(new RadiobutTrivia("Which of these is the hardiest, toughest animal?", "Cockroach", "Hippopotamus", "Tardigrade", "Camel", 3));
+        questionArray.add(new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true));
+        questionArray.add(new RadiobutTrivia("Which of these companies is the oldest?", "CIGNA", "Dupont", "Colgate", "Jim Beam", 1));
+        questionArray.add(new TextTrivia("What is the highest grossing movie of all time (adjusted for inflation)?\n\n(Enter answer with all lowercase letters)", "gone with the wind"));
+        questionArray.add(new CheckboxTrivia("Which of the following are among the world's 5 most widely spoken languages?", "Bengali", "English", "Portuguese", "Arabic", false, true, false, true));
+        questionArray.add(new RadiobutTrivia("Which of these lakes is the largest - by volume?", "Lake Baikal", "Lake Michigan", "Lake Tanganikya", "Lake Superior", 1));
+        questionArray.add(new CheckboxTrivia("Which of the following are classes/categories of rock?", "Metamorphic", "Obsidian", "Igneous", "Sedimentary", true, false, true, true));
+
         setContentView(R.layout.activity_main);
 
         Log.v("MainActivity.java", "EXECUTING THE onCreate METHOD!!");
@@ -107,23 +113,12 @@ public class MainActivity extends AppCompatActivity {
         aiRadioButton04 = (RadioButton) findViewById(R.id.radiobutton_answer_04);
     }
 
-    // TODO: I AM ABLE TO MAINTAIN ACTIVITY STATE & MANUALLY SET THE LANDSCAPE LAYOUT, BUT NEED TO SWITCH THE LANDSCAPE LAYOUT
-    //  TODO: WHATEVER STAGE THE PORTRAIT LAYOUT IS IN...
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-            setContentView(R.layout.activity_main_landscape_manually_set);
-            Log.v("MainActivity.java", "VARIABLE CHECK: questionIndex is currently: " + Integer.toString(questionIndex));
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-            setContentView(R.layout.activity_main);
-        }
-
-    }
+//    // TODO: EXPERIMENT & SEE IF STANDARD BUNDLE APPROACH CAN HANDLE MY ARRAY OF OBJECTS...
+//    @Override
+//    protected void onSaveInstanceState (Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putCharSequence(KEY_TEXT_VALUE, mTextView.getText());
+//    }
 
     // This method is called by the "Got it. Let's Go" button on the introduction screen.
     // It populates the first question & answer(s) and swaps out the buttons.
@@ -148,22 +143,22 @@ public class MainActivity extends AppCompatActivity {
 
         // Check whether question has already been answered. If question has NOT been answered, proceed with loading the question/answer(s).
         // Operation will then wait until user presses one of the buttons.
-        if (questionArray[questionIndex].wasAnswered == false) {
+        if (questionArray.get(questionIndex).wasAnswered == false) {
 
             // Show current question's icon as active
             fetchIconViewId().setBackground(getResources().getDrawable(R.drawable.icon_current));
 
             // Load question text from the current trivia entry into the miCard TextView
-            qmText.setText(questionArray[questionIndex].getQuestionText());
+            qmText.setText(questionArray.get(questionIndex).getQuestionText());
 
             // Determine which type of question has been answered & route the logic accordingly
-            if (questionArray[questionIndex] instanceof TextTrivia) { // Process the TextTrivia answer type...
+            if (questionArray.get(questionIndex) instanceof TextTrivia) { // Process the TextTrivia answer type...
                 // Turn on the EditText view in the answer/instructions card.
                 // Ensure RadioGroup and CheckBox container views are turned off.
                 aiCheckBoxContainer.setVisibility(View.GONE);
                 aiRadioGroup.setVisibility(View.GONE);
                 aiEditText.setVisibility(View.VISIBLE);
-            } else if (questionArray[questionIndex] instanceof CheckboxTrivia) { // Process the CheckboxTrivia answer type...
+            } else if (questionArray.get(questionIndex) instanceof CheckboxTrivia) { // Process the CheckboxTrivia answer type...
                 // Clear any checked CheckBoxes from previous Checkbox question.
                 // Do it before making visible, so user doesn't see them being cleared. UNCHECKING IS STILL APPARENT TO USER...WHY?
                 if (aiCheckBox01.isChecked()) {
@@ -186,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                 aiCheckBoxContainer.setVisibility(View.VISIBLE);
 
                 // create local variable that references the current question from the question array
-                CheckboxTrivia currentQuestion = (CheckboxTrivia) questionArray[questionIndex];
+                CheckboxTrivia currentQuestion = (CheckboxTrivia) questionArray.get(questionIndex);
 
                 // Reference the array of answers and display one in each of the RadioButton views.
                 String[] possibleAnswers = currentQuestion.getPossibleAnswers();
@@ -194,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
                 aiCheckBox02.setText(possibleAnswers[1]);
                 aiCheckBox03.setText(possibleAnswers[2]);
                 aiCheckBox04.setText(possibleAnswers[3]);
-            } else if (questionArray[questionIndex] instanceof RadiobutTrivia) { // Process the RadiobutTrivia answer type...
+            } else if (questionArray.get(questionIndex) instanceof RadiobutTrivia) { // Process the RadiobutTrivia answer type...
                 // Clear any checked RadioButtons from previous RadioButton question
                 // Do it before making visible, so user doesn't see them being cleared. UNCHECKING IS STILL APPARENT TO USER...WHY?
                 aiRadioGroup.clearCheck();
@@ -207,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                 aiRadioGroup.setVisibility(View.VISIBLE);
 
                 // create local variable that references the current question from the question array
-                RadiobutTrivia currentQuestion = (RadiobutTrivia) questionArray[questionIndex];
+                RadiobutTrivia currentQuestion = (RadiobutTrivia) questionArray.get(questionIndex);
 
                 // Reference the array of answers and display one in each of the RadioButton views.
                 String[] possibleAnswers = currentQuestion.getPossibleAnswers();
@@ -226,29 +221,29 @@ public class MainActivity extends AppCompatActivity {
     // It is called by various methods including the nextQuestion, answerQuestion, and skipQuestion.
     private void checkProgress() {
         v("MainActivity.java", "ENTERING THE checkProgress() method...");
-        v("MainActivity.java", "The value of questionArray.length is: " + Integer.toString(questionArray.length));
+        v("MainActivity.java", "The value of questionArray.size() is: " + Integer.toString(questionArray.size()));
         v("MainActivity.java", "The value of questionIndex at current question is: " + Integer.toString(questionIndex));
         v("MainActivity.java", "the value of isFirstPass at this point is: " + isFirstPass);
-        v("MainActivity.java", "the value of Question #1 wasAnswered at this point is: " + questionArray[0].wasAnswered);
-        v("MainActivity.java", "the value of Question #2 wasAnswered at this point is: " + questionArray[1].wasAnswered);
-        v("MainActivity.java", "the value of Question #3 wasAnswered at this point is: " + questionArray[2].wasAnswered);
+        v("MainActivity.java", "the value of Question #1 wasAnswered at this point is: " + questionArray.get(0).wasAnswered);
+        v("MainActivity.java", "the value of Question #2 wasAnswered at this point is: " + questionArray.get(1).wasAnswered);
+        v("MainActivity.java", "the value of Question #3 wasAnswered at this point is: " + questionArray.get(2).wasAnswered);
 
         // Triggered if user is on the final question and this is the user's first time through the questions.
-        if (isFirstPass == true && questionIndex == questionArray.length - 1) {
+        if (isFirstPass == true && questionIndex == questionArray.size() - 1) {
             isFirstPass = false; // Change global variable to show user has finished their first pass through the questions.
             // Cycle through the questions, checking to see if any were skipped
-            for (int i = 0; i < questionArray.length; i++) {
-                if (questionArray[i].wasAnswered == false) {
+            for (int i = 0; i < questionArray.size(); i++) {
+                if (questionArray.get(i).wasAnswered == false) {
                     lastChance(); // Since all questions have been viewed and some have been skipped, send user to the Last Chance screen
                     break;
-                } else if (i == questionArray.length - 1 && questionArray[i].wasAnswered == true) {
+                } else if (i == questionArray.size() - 1 && questionArray.get(i).wasAnswered == true) {
                     // If execution reaches this line, there are no skipped questions and the Grade Quiz screen will be shown.
                     gradeQuiz();
                 }
 
             }
 
-        } else if (isFirstPass == false && questionIndex == questionArray.length - 1) { // Triggered if user is on the final question and it is user's second time through (skipped questions).
+        } else if (isFirstPass == false && questionIndex == questionArray.size() - 1) { // Triggered if user is on the final question and it is user's second time through (skipped questions).
             gradeQuiz(); // Grade Quiz screen will be shown
         } else { // If current question is not the final question (whether first pass or revisitig skipped questions), move on to checking/loading the next question.
             questionIndex++; // Increment questionIndex
@@ -262,14 +257,14 @@ public class MainActivity extends AppCompatActivity {
     public void answerQuestion(View view) {
         v("MainActivity.java", "ENTERING THE answerQuestion() method...");
         // Determine which type of question has been answered & route the logic accordingly
-        if (questionArray[questionIndex] instanceof TextTrivia) { // Process the TextTrivia answer type...
+        if (questionArray.get(questionIndex) instanceof TextTrivia) { // Process the TextTrivia answer type...
             String userAnswer = aiEditText.getText().toString();
-            TextTrivia castTriviaEntry = (TextTrivia) questionArray[questionIndex]; // Downcast the TriviaEntry object to a TextTrivia object. (Class already checked!).
+            TextTrivia castTriviaEntry = (TextTrivia) questionArray.get(questionIndex); // Downcast the TriviaEntry object to a TextTrivia object. (Class already checked!).
             castTriviaEntry.submitAnswer(userAnswer);
             aiEditText.setText("");
-        } else if (questionArray[questionIndex] instanceof CheckboxTrivia) { // Process the RadiobutTrivia answer type...
+        } else if (questionArray.get(questionIndex) instanceof CheckboxTrivia) { // Process the RadiobutTrivia answer type...
 
-            CheckboxTrivia castTriviaEntry = (CheckboxTrivia) questionArray[questionIndex]; // Downcast the TriviaEntry object to a CheckboxTrivia object. (Class already checked!)
+            CheckboxTrivia castTriviaEntry = (CheckboxTrivia) questionArray.get(questionIndex); // Downcast the TriviaEntry object to a CheckboxTrivia object. (Class already checked!)
 
             // Declare a boolean array that will store whether each CheckBox object is checked. This array will be passed to the CheckboxTrivia object's submitAnswer method.
             boolean[] selectedAnswers = new boolean[4];
@@ -283,8 +278,8 @@ public class MainActivity extends AppCompatActivity {
             // Pass the prepared boolean array to the CheckboxTrivia object's submitAnswer method.
             castTriviaEntry.submitAnswer(selectedAnswers);
 
-        } else if (questionArray[questionIndex] instanceof RadiobutTrivia) { // Process the RadiobutTrivia answer type...
-            RadiobutTrivia castTriviaEntry = (RadiobutTrivia) questionArray[questionIndex]; // Downcast the TriviaEntry object to a RadiobutTrivia object. (Class already checked!).
+        } else if (questionArray.get(questionIndex) instanceof RadiobutTrivia) { // Process the RadiobutTrivia answer type...
+            RadiobutTrivia castTriviaEntry = (RadiobutTrivia) questionArray.get(questionIndex); // Downcast the TriviaEntry object to a RadiobutTrivia object. (Class already checked!).
 
             //variable to store the resource id returned as int value by the getCheckedRadioButtonId() method
             int returnedId = aiRadioGroup.getCheckedRadioButtonId();
@@ -407,8 +402,8 @@ public class MainActivity extends AppCompatActivity {
 
         //int totalCorrect = 0; // Create local variable to hold number of correct answers
         // Loop through each question/answer object in questionArray and increase totalCorrect if the object's wasAnsweredCorrectly variable shows it was answered correctly ('true')
-        for (int i = 0; i < questionArray.length; i++) {
-            if (questionArray[i].wasAnsweredCorrectly == true) {
+        for (int i = 0; i < questionArray.size(); i++) {
+            if (questionArray.get(i).wasAnsweredCorrectly == true) {
                 totalCorrect++;
             }
         }
@@ -424,8 +419,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Add specific stats to the Score Message
         qmScoreMessageNumCorrect.setText(totalCorrectString);
-        qmScoreMessageTotalNumQuestions.setText(Integer.toString(questionArray.length));
-        qmScoreMessagePercentCorrect.setText(Float.toString((int) ((float) totalCorrect / questionArray.length * 100)));
+        qmScoreMessageTotalNumQuestions.setText(Integer.toString(questionArray.size()));
+        qmScoreMessagePercentCorrect.setText(Float.toString((int) ((float) totalCorrect / questionArray.size() * 100)));
 
 
         // Turn off all the aiCard EditText, RadioGroup, & CheckBox LinearLayout container group views.
@@ -458,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
         Log.v("Mainactivity.java", "ENTERING THE sendScore() method...");
         Intent sendScoreIntent = new Intent(Intent.ACTION_SEND); // Per "JustJava experimentation, this code block should work...
         sendScoreIntent.setType("text/plain");
-        sendScoreIntent.putExtra(Intent.EXTRA_TEXT, "I just played \'OK, Smartypants!\' and got " + totalCorrectString + " questions right out of " + questionArray.length + ". \n\n Think you can beat me, smartypants?");
+        sendScoreIntent.putExtra(Intent.EXTRA_TEXT, "I just played \'OK, Smartypants!\' and got " + totalCorrectString + " questions right out of " + questionArray.size() + ". \n\n Think you can beat me, smartypants?");
 
         if (sendScoreIntent.resolveActivity(getPackageManager()) != null) {
             Log.v("MainActivity.java", "Executing the resolveActivity if statement code");
