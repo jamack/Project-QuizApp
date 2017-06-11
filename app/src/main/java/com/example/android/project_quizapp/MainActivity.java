@@ -2,6 +2,7 @@ package com.example.android.project_quizapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static android.util.Log.v;
 
@@ -26,10 +28,20 @@ public class MainActivity extends AppCompatActivity {
     // Each one of these objects (TextTrivia, RadiobutTrivia, & CheckboxTrivia) corresponds to a different answer type.
     // These subclasses all inherit from the TriviaEntry superclass.
     TriviaEntry[] questionArray = new TriviaEntry[]{
-            new TextTrivia("Who is the best wife in the entire world?", "Liz"),
             new CheckboxTrivia("Which of the following are fruit?", "carrot", "kiwi", "tomato", "buddha's claw", false, true, true, true),
             new RadiobutTrivia("Which river is the longest?", "Tigris", "Congo", "Danube", "Colorado", 2),
+            new TextTrivia("Which of the visible colors has the shortest wavelength?\n\n(Enter answer with all lowercase letters)", "violet"),
+            new RadiobutTrivia("Which of these is the hardiest, toughest animal?", "Cockroach", "Hippopotamus", "Tardigrade", "Camel", 3),
+            new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true),
+            new RadiobutTrivia("Which of these companies is the oldest?", "CIGNA", "Dupont", "Colgate", "Jim Beam", 1),
+            new TextTrivia("What is the highest grossing movie of all time (adjusted for inflation)?\n\n(Enter answer with all lowercase letters)", "gone with the wind"),
+            new CheckboxTrivia("Which of the following are among the world's 5 most widely spoken languages?", "Bengali", "English", "Portuguese", "Arabic", false, true, false, true),
+            new RadiobutTrivia("Which of these lakes is the largest - by volume?", "Lake Baikal", "Lake Michigan", "Lake Tanganikya", "Lake Superior", 1),
+            new CheckboxTrivia("Which of the following are classes/categories of rock?", "Metamorphic", "Obsidian", "Igneous", "Sedimentary", true, false, true, true)
     };
+
+    // These global variables will serve as shortcuts to the various Views. (Instead of using findViewById every time).
+    // will be initialized in the onCreate method, once the layout has been inflated.
     private LinearLayout iconBar; // Holds a reference to the LinearLayout container for the question icons
     private CardView aiCard; // Holds a reference to the answer/instructions CardView container
     private EditText aiEditText; // Holds a reference to the EditText view in the answer/instructions card text
@@ -38,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
     private CheckBox aiCheckBox02; // Holds a reference to second CheckBox answer in the answer/instructions card LinearLayout container group.
     private CheckBox aiCheckBox03; // Holds a reference to third CheckBox answer in the answer/instructions card LinearLayout container group.
     private CheckBox aiCheckBox04; // Holds a reference to fourth CheckBox answer in the answer/instructions card LinearLayout container group.
-    // These global variables will serve as shortcuts to the various Views. (Instead of using findViewById every time).
-    // will be initialized in the onCreate method, once the layout has been inflated.
     private TextView qmText; // Holds a reference to the question/message card text
     private View qmScoreMessage; // Holds a reference to the question/message card container view for the Score Message.
     private TextView qmScoreMessageNumCorrect; // Holds a reference to the Score Message's number of correct answers for user.
@@ -97,20 +107,23 @@ public class MainActivity extends AppCompatActivity {
         aiRadioButton04 = (RadioButton) findViewById(R.id.radiobutton_answer_04);
     }
 
-    // TODO: THIS CODE (COMBINED WITH LINE IN MANIFEST) SWITCHES THE LAYOUT, BUT DOESN'T SAVE THE STATE...
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//
-//        // Checks the orientation of the screen
-//        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-//            setContentView(R.layout.activity_main);
-//        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-//            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-//            setContentView(R.layout.activity_main);
-//        }
-//    }
+    // TODO: I AM ABLE TO MAINTAIN ACTIVITY STATE & MANUALLY SET THE LANDSCAPE LAYOUT, BUT NEED TO SWITCH THE LANDSCAPE LAYOUT
+    //  TODO: WHATEVER STAGE THE PORTRAIT LAYOUT IS IN...
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_main_landscape_manually_set);
+            Log.v("MainActivity.java", "VARIABLE CHECK: questionIndex is currently: " + Integer.toString(questionIndex));
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+            setContentView(R.layout.activity_main);
+        }
+
+    }
 
     // This method is called by the "Got it. Let's Go" button on the introduction screen.
     // It populates the first question & answer(s) and swaps out the buttons.
@@ -137,6 +150,9 @@ public class MainActivity extends AppCompatActivity {
         // Operation will then wait until user presses one of the buttons.
         if (questionArray[questionIndex].wasAnswered == false) {
 
+            // Show current question's icon as active
+            fetchIconViewId().setBackground(getResources().getDrawable(R.drawable.icon_current));
+
             // Load question text from the current trivia entry into the miCard TextView
             qmText.setText(questionArray[questionIndex].getQuestionText());
 
@@ -148,6 +164,21 @@ public class MainActivity extends AppCompatActivity {
                 aiRadioGroup.setVisibility(View.GONE);
                 aiEditText.setVisibility(View.VISIBLE);
             } else if (questionArray[questionIndex] instanceof CheckboxTrivia) { // Process the CheckboxTrivia answer type...
+                // Clear any checked CheckBoxes from previous Checkbox question.
+                // Do it before making visible, so user doesn't see them being cleared. UNCHECKING IS STILL APPARENT TO USER...WHY?
+                if (aiCheckBox01.isChecked()) {
+                    aiCheckBox01.toggle();
+                }
+                if (aiCheckBox02.isChecked()) {
+                    aiCheckBox02.toggle();
+                }
+                if (aiCheckBox03.isChecked()) {
+                    aiCheckBox03.toggle();
+                }
+                if (aiCheckBox04.isChecked()) {
+                    aiCheckBox04.toggle();
+                }
+
                 // Turn on the LinearLayout container view for the CheckBox views in the answer/instructions card.
                 // Ensure EditText and RadioGroup container views are turned off.
                 aiEditText.setVisibility(View.GONE);
@@ -164,6 +195,11 @@ public class MainActivity extends AppCompatActivity {
                 aiCheckBox03.setText(possibleAnswers[2]);
                 aiCheckBox04.setText(possibleAnswers[3]);
             } else if (questionArray[questionIndex] instanceof RadiobutTrivia) { // Process the RadiobutTrivia answer type...
+                // Clear any checked RadioButtons from previous RadioButton question
+                // Do it before making visible, so user doesn't see them being cleared. UNCHECKING IS STILL APPARENT TO USER...WHY?
+                aiRadioGroup.clearCheck();
+
+
                 // Turn on the RadioButton views in the answer/instructions card.
                 // Ensure EditText and CheckBox container views are turned off.
                 aiEditText.setVisibility(View.GONE);
@@ -266,8 +302,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Change icon color to blue
-//        int myColor = ContextCompat.getColor(this, R.color.app_main);
-//        fetchIconViewId().setCardBackgroundColor(myColor);
         fetchIconViewId().setBackground(getResources().getDrawable(R.drawable.icon_answered));
 
         // Call the checkProgress() method to determine next action.
@@ -279,12 +313,8 @@ public class MainActivity extends AppCompatActivity {
     public void skipQuestion(View view) {
         v("MainActivity.java", "ENTERING THE skipQuestion method...");
         // Change icon color to orange
-//        int myColor = ContextCompat.getColor(this, R.color.app_accent);
-//        fetchIconViewId().setCardBackgroundColor(myColor);
-        Log.v("MainActivity.java", "ABOUT TO SWAP BACKGROUND DRAWABLE FOR SKIPPED QUESTION...");
         Drawable iconDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_skipped, null);
         fetchIconViewId().setBackground(iconDrawable);
-        Log.v("MainActivity.java", "SWAPPED BACKGROUND DRAWABLE FOR SKIPPED QUESTION. MOVING ON...");
 
         // Call the checkProgress() method to determine next action.
         checkProgress();
@@ -320,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
     private void lastChance() {
         Log.v("MainActivity.java", "ENTERING THE lastChance() method...");
         // Switch qmCard text to message that questions have been skipped.
-        qmText.setText("Nice work! You've made your way through all the questions!");
+        qmText.setText(R.string.main_activity_last_chance_first_pass_completed);
 
         // Turn off all the aiCard EditText, RadioGroup, & CheckBox LinearLayout container group views.
         aiEditText.setVisibility(View.GONE);
@@ -332,14 +362,13 @@ public class MainActivity extends AppCompatActivity {
         aiText.setVisibility(View.VISIBLE);
 
         // Add the instructions text to the aiCard Text view.
-        aiText.setText("Looks like you skipped at least one question.\nYou can press 'Revisit' to try those skipped questions again." +
-                "\nOtherwise, if you know you still don't know, you can just go ahead and press 'Score my answers!' to see how you did)");
+        aiText.setText(getString(R.string.main_activity_last_chance_revisit_or_score));
 
         // Swap out the buttons
         findViewById(R.id.skip_button).setVisibility(View.GONE);
         findViewById(R.id.confirm_answer_button).setVisibility(View.GONE);
         findViewById(R.id.revisit_button).setVisibility(View.VISIBLE);
-        findViewById(R.id.score_answers_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.score_answers_button_last_chance).setVisibility(View.VISIBLE);
 
         // Reset the questionIndex global variable and call the nextQuestion() method. It will start cycling through the questions again, looking for skipped questions. (wasAnswered = 'false').
         questionIndex = 0;
@@ -354,7 +383,11 @@ public class MainActivity extends AppCompatActivity {
 
         // Swap out the buttons
         findViewById(R.id.revisit_button).setVisibility(View.GONE);
-        findViewById(R.id.answer_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.score_answers_button_last_chance).setVisibility(View.GONE);
+        findViewById(R.id.confirm_answer_button).setVisibility(View.VISIBLE);
+        findViewById(R.id.score_answers_button_revisit).setVisibility(View.VISIBLE);
+        // TODO: Reconfiguring these buttons. CURRENTLY, APP CRASHES WHEN THE BUTTON BELOW IS PRESSED...
+        //findViewById(R.id.confirm_answer_button).setVisibility(View.VISIBLE);
 
         // Call the nextQuestion() method to start cycling through all the questions again and load the first unanswered question
         nextQuestion();
@@ -413,8 +446,8 @@ public class MainActivity extends AppCompatActivity {
         // Swap out the buttons for the Sharing button
         findViewById(R.id.skip_button).setVisibility(View.GONE);
         findViewById(R.id.confirm_answer_button).setVisibility(View.GONE);
-        findViewById(R.id.answer_button).setVisibility(View.GONE);
-        findViewById(R.id.score_answers_button).setVisibility(View.GONE);
+        findViewById(R.id.score_answers_button_last_chance).setVisibility(View.GONE);
+        findViewById(R.id.score_answers_button_revisit).setVisibility(View.GONE);
         findViewById(R.id.revisit_button).setVisibility(View.GONE);
         findViewById(R.id.share_button).setVisibility(View.VISIBLE);
 

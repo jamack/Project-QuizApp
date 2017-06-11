@@ -74,7 +74,6 @@
     </LinearLayout>
 
     <!-- This is the card view that all questions and message text will be shown in -->
-    <!-- TODO: SIZE THIS APPROPRIATELY. HAD BEEN 136DP, BUT MAYBE 'WRAP_CONTENT' INSTEAD? -->
     <android.support.v7.widget.CardView
         android:id="@+id/question_message_card"
         android:layout_width="match_parent"
@@ -110,7 +109,7 @@
                 android:id="@+id/score_message_line_01"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Wowzers!"
+                android:text="@string/activity_main_score_messsage_line01"
                 android:textSize="16sp" />
 
             <!-- Container for second line of the score message -->
@@ -118,13 +117,12 @@
                 android:id="@+id/score_message_line_02"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/score_message_line_01"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="You got"
+                    android:text="@string/activity_main_score_message_line02_pt1of3"
                     android:textSize="16sp" />
 
                 <TextView
@@ -133,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
-                    android:text="X"
+                    android:text="@string/activity_main_score_message_line02_pt2of3"
                     android:textColor="@color/app_main"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -141,7 +139,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="answers correct"
+                    android:text="@string/activity_main_score_message_line02_pt3of3"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -150,13 +148,12 @@
                 android:id="@+id/score_message_line_03"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/score_message_line_02"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="out of"
+                    android:text="@string/activity_main_score_message_line03_pt1of3"
                     android:textSize="16sp" />
 
                 <TextView
@@ -165,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:layout_marginRight="4dp"
-                    android:text="X"
+                    android:text="@string/activity_main_score_message_line03_pt2of3"
                     android:textColor="@color/app_accent"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -173,7 +170,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="total questions!"
+                    android:text="@string/activity_main_score_message_line03_pt3of3"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -182,13 +179,12 @@
                 android:id="@+id/score_message_line_04"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/score_message_line_03"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="That\'s"
+                    android:text="@string/activity_main_score_message_line04_pt1of4"
                     android:textSize="16sp" />
 
                 <TextView
@@ -196,7 +192,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="X"
+                    android:text="@string/activity_main_score_message_line04_pt2of4"
                     android:textColor="@color/app_main"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -205,7 +201,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="4dp"
-                    android:text="%"
+                    android:text="@string/activity_main_score_message_line04_pt3of4"
                     android:textColor="@color/app_main"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -213,7 +209,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="!"
+                    android:text="@string/activity_main_score_message_line04_pt4of4"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -225,7 +221,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/answer_instructions_card"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -238,27 +234,31 @@
         <ScrollView
             android:id="@+id/answer_instructions_card_scrollview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <!-- This is the simple text view for instructions text. Visibility initially set to 'visible' -->
-        <TextView
-            android:id="@+id/answer_instructions_card_text"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:text="@string/xml_text_answer_instruction_card"
-            android:textSize="16sp"
-            android:visibility="visible" />
+            android:layout_height="wrap_content"
+            android:fadeScrollbars="false">
+            <!-- This is the simple text view for instructions text. Visibility initially set to 'visible' -->
+            <TextView
+                android:id="@+id/answer_instructions_card_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/xml_text_answer_instruction_card"
+                android:textSize="16sp"
+                android:visibility="visible" />
         </ScrollView>
 
-        <!-- This is the EditText view for typed answers. Visibility initially set to 'gone' -->
+        <!-- This is the EditText view for typed answers. Visibility initially set to 'gone'.
+            singleLine is deprecated, but imeOptions="actionDone" doesn't work with maxLines... -->
         <EditText
             android:id="@+id/answer_instructions_card_edittext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:hint="Type your answer here"
+            android:hint="@string/activity_main_type_your_answer_hint"
             android:imeOptions="actionDone"
             android:singleLine="true"
+            android:textColor="#757575"
+            android:textSize="16sp"
             android:visibility="gone" />
 
         <!-- This is the container view for the (4) checkbox multiple choice answers. Visibility initially set to 'gone'.
@@ -273,35 +273,23 @@
 
             <CheckBox
                 android:id="@+id/checkbox_answer_01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingLeft="16dp"
-                android:text="Example answer#1" />
+                style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                android:text="@string/activity_main_checkbox01_placeholder_text" />
 
             <CheckBox
                 android:id="@+id/checkbox_answer_02"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingLeft="16dp"
-                android:text="Example answer#2" />
+                style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                android:text="@string/activity_main_checkbox02_placeholder_text" />
 
             <CheckBox
                 android:id="@+id/checkbox_answer_03"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingLeft="16dp"
-                android:text="Example answer#3" />
+                style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                android:text="@string/activity_main_checkbox03_placeholder_text" />
 
             <CheckBox
                 android:id="@+id/checkbox_answer_04"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingLeft="16dp"
-                android:text="Example answer#4" />
+                style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                android:text="@string/activity_main_checkbox04_placeholder_text" />
 
         </LinearLayout>
 
@@ -317,35 +305,23 @@
 
             <RadioButton
                 android:id="@+id/radiobutton_answer_01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingLeft="16dp"
-                android:text="Example answer #1" />
+                style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                android:text="@string/activity_main_radiobutton01_placeholder_text" />
 
             <RadioButton
                 android:id="@+id/radiobutton_answer_02"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingLeft="16dp"
-                android:text="Example answer #2" />
+                style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                android:text="@string/activity_main_radiobutton02_placeholder_text" />
 
             <RadioButton
                 android:id="@+id/radiobutton_answer_03"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingLeft="16dp"
-                android:text="Example answer #3" />
+                style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                android:text="@string/activity_main_radiobutton03_placeholder_text" />
 
             <RadioButton
                 android:id="@+id/radiobutton_answer_04"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
-                android:paddingLeft="16dp"
-                android:text="Example answer #4" />
+                style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                android:text="@string/activity_main_radiobutton04_placeholder_text" />
 
         </RadioGroup>
 
@@ -362,105 +338,91 @@
         <!-- This button will be shown on the app's intro screen. Initially set to 'visible' -->
         <Button
             android:id="@+id/lets_go_button"
+            style="@style/buttons"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@color/app_main"
             android:onClick="launchQuiz"
-            android:text="Got it. Let’s Go!"
-            android:textColor="@color/button_text"
-            android:textSize="16sp"
+            android:text="@string/activity_main_launch_quiz"
             android:visibility="visible" />
 
-        <!-- This button will be shown on the typical Q&A screens. Initially set to 'gone' -->
+        <!-- This button will be shown on the typical Q&A screens. Initially set to 'gone'
+            Code for the other button on theses screens (Confirm answer!) is further below -->
         <Button
             android:id="@+id/skip_button"
+            style="@style/buttons"
             android:layout_width="0dp"
-            android:layout_height="56dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:background="@color/app_accent"
             android:onClick="skipQuestion"
-            android:text="Skip..."
-            android:textColor="@color/button_text"
-            android:textSize="16sp"
+            android:text="@string/activity_main_button_skip"
             android:visibility="gone" />
 
-        <!-- This button will be shown on the typical Q&A screens. Initially set to 'gone' -->
-        <Button
-            android:id="@+id/confirm_answer_button"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="8dp"
-            android:layout_weight="2"
-            android:background="@color/app_main"
-            android:onClick="answerQuestion"
-            android:text="Confirm answer!"
-            android:textColor="@color/button_text"
-            android:textSize="16sp"
-            android:visibility="gone" />
-
-
-        <!-- This button will be shown on the Last Chance screen (along with the score_answers_button). Initially set to 'gone' -->
+        <!-- This button will be shown on the Last Chance screen. Initially set to 'gone' -->
         <Button
             android:id="@+id/revisit_button"
+            style="@style/buttons"
             android:layout_width="0dp"
-            android:layout_height="56dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:background="@color/app_accent"
             android:onClick="revisitQuestions"
-            android:text="Revisit..."
-            android:textColor="@color/button_text"
-            android:textSize="16sp"
+            android:text="@string/activity_main_button_revisit"
             android:visibility="gone" />
 
-        <!-- This button will be shown when revisiting skipped Q&A screens. Initially set to 'gone' -->
+        <!-- This button will be shown on the Last Chance screen. Initially set to 'gone' -->
         <Button
-            android:id="@+id/answer_button"
+            android:id="@+id/score_answers_button_last_chance"
+            style="@style/buttons"
             android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="4dp"
-            android:layout_weight="1"
-            android:background="@color/app_accent"
-            android:onClick="answerQuestion"
-            android:text="Answer!"
-            android:textColor="@color/button_text"
-            android:textSize="16sp"
-            android:visibility="gone" />
-
-        <!-- This button will be shown when revisiting skipped Q&A screens. Initially set to 'gone' -->
-        <Button
-            android:id="@+id/score_answers_button"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="8dp"
             android:layout_weight="2"
             android:background="@color/app_main"
             android:onClick="launchGradeQuiz"
-            android:text="Score my answers!"
-            android:textColor="@color/button_text"
-            android:textSize="16sp"
+            android:text="@string/activity_main_button_score_answers"
+            android:visibility="gone" />
+
+        <!-- This button will be shown when revisiting skipped Q&A screens. Initially set to 'gone' -->
+        <Button
+            android:id="@+id/score_answers_button_revisit"
+            style="@style/buttons"
+            android:layout_width="0dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            android:layout_weight="1"
+            android:background="@color/app_accent"
+            android:onClick="launchGradeQuiz"
+            android:text="@string/activity_main_button_just_score"
+            android:visibility="gone" />
+
+        <!-- This button will be shown on the typical Q&A screens, as well as on the revisited Q&A screens. Initially set to 'gone' -->
+        <Button
+            android:id="@+id/confirm_answer_button"
+            style="@style/buttons"
+            android:layout_width="0dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="8dp"
+            android:layout_weight="2"
+            android:background="@color/app_main"
+            android:onClick="answerQuestion"
+            android:text="@string/activity_main_button_confirm_answer"
             android:visibility="gone" />
 
         <!-- This button will be shown on the app's Score/Share screen. Initially set to 'gone' -->
         <Button
             android:id="@+id/share_button"
+            style="@style/buttons"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@color/app_main"
             android:onClick="sendScore"
-            android:text="Share my score with a friend!"
-            android:textColor="@color/button_text"
-            android:textSize="16sp"
+            android:text="@string/activity_main_button_share_score"
             android:visibility="gone" />
 
     </LinearLayout>

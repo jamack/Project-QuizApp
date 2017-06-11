@@ -6,16 +6,14 @@ package com.example.android.project_quizapp;
 
 class TriviaEntry {
 
-    // Text of the question.
-    protected String questionText;
-
     // False until user input is entered with the "Confirm answer!" button. (booleans are False by default).
     // This will used to identify "skipped" answers that the user can return to.
     protected boolean wasAnswered = false;
-
     // Stores whether question was answered correctly. 'True' if correct, 'False' if incorrect.
     // Correct answers will be tallied at the end of the quiz.
     protected boolean wasAnsweredCorrectly;
+    // Text of the question.
+    private String questionText;
 
     // The TriviaEntry class has (1) constructor.
     // In practice, this will never be called, b/c it does not contain an answer field.

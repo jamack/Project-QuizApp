@@ -52,13 +52,23 @@ class CheckboxTrivia extends TriviaEntry {
 
         for (int i = 0; i < correctAnswers.length; i++) {
             if (selectedAnswers[i] != correctAnswers[i]) {
-                break;
+                return; // exits the submitAnswer method WITHOUT executing the code below that sets wasAnswered to 'true'
             }
         }
 
         // If all the user's answers correspond to the correct answers, the 'break' code in the above "if" statement is never executed and the following code runs.
         wasAnsweredCorrectly = true;
         Log.v("CheckboxTrivia.java", "HAND-OFF TO CHECKBOXTRIVIA.JAVA SUCCESSFUL. Question was also answered correctly!");
+
+//        for (int i = 0; i < correctAnswers.length; i++) {
+//            if (selectedAnswers[i] != correctAnswers[i]) {
+//                break;
+//            }
+//        }
+//
+//        // If all the user's answers correspond to the correct answers, the 'break' code in the above "if" statement is never executed and the following code runs.
+//        wasAnsweredCorrectly = true;
+//        Log.v("CheckboxTrivia.java", "HAND-OFF TO CHECKBOXTRIVIA.JAVA SUCCESSFUL. Question was also answered correctly!");
     }
 
 }

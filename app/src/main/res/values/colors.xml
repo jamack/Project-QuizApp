@@ -13,6 +13,9 @@
     <!-- This is the main orange color. Currently Amber 400 -->
     <color name="app_accent">#ffca28</color>
 
+    <!-- This is the CheckBox & RadioButton text color (to match the TextView text color) -->
+    <color name="text_standard">#757575</color>
+
     <!-- This is the button text color -->
     <color name="button_text">#FFFFFF</color>
 

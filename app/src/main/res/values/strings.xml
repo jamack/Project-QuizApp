@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Project-Quiz App</string>
 
+    <!-- Strings below are from activity_main.xml -->
     <string name="xml_text_question_message_card">
         Welcome to OK, Smartypants!
         \n\nGet ready to test your knowledge, then challenge your friends to see who is the biggest smartypants!
@@ -15,7 +16,41 @@
 
         \n\nWhen you\'ve selected or typed your answer(s), press the \'Confirm Answer!\' button.
         \n\nIf you\'re not sure of the answer, you can press the \'Skip...\' button and come back to it later.\n
-        <!-- -->
+    </string>
+    <string name="activity_main_score_messsage_line01">Wowzers!</string>
+    <string name="activity_main_score_message_line02_pt1of3">You got</string>
+    <string name="activity_main_score_message_line02_pt2of3">X</string>
+    <string name="activity_main_score_message_line02_pt3of3">answers correct</string>
+    <string name="activity_main_score_message_line03_pt1of3">out of</string>
+    <string name="activity_main_score_message_line03_pt2of3">X</string>
+    <string name="activity_main_score_message_line03_pt3of3">total questions!</string>
+    <string name="activity_main_score_message_line04_pt1of4">That\'s</string>
+    <string name="activity_main_score_message_line04_pt2of4">X</string>
+    <string name="activity_main_score_message_line04_pt3of4">%</string>
+    <string name="activity_main_score_message_line04_pt4of4">!</string>
+    <string name="activity_main_type_your_answer_hint">Type your answer here</string>
+    <string name="activity_main_checkbox01_placeholder_text">Example answer#1</string>
+    <string name="activity_main_checkbox02_placeholder_text">Example answer#2</string>
+    <string name="activity_main_checkbox03_placeholder_text">Example answer#3</string>
+    <string name="activity_main_checkbox04_placeholder_text">Example answer#4</string>
+    <string name="activity_main_radiobutton01_placeholder_text">Example answer #1</string>
+    <string name="activity_main_radiobutton02_placeholder_text">Example answer #2</string>
+    <string name="activity_main_radiobutton03_placeholder_text">Example answer #3</string>
+    <string name="activity_main_radiobutton04_placeholder_text">Example answer #4</string>
+    <string name="activity_main_launch_quiz">Got it. Let’s Go!</string>
+    <string name="activity_main_button_skip">Skip...</string>
+    <string name="activity_main_button_confirm_answer">Confirm answer!</string>
+    <string name="activity_main_button_revisit">Revisit...</string>
+    <string name="activity_main_button_score_answers">Score my answers!</string>
+    <string name="activity_main_button_just_score">Nevermind</string>
+    <string name="activity_main_button_share_score">Share my score with a friend!</string>
+
+    <!-- Strings below are from MainActivity.java -->
+    <string name="main_activity_last_chance_first_pass_completed">Nice work! You\'ve made your way through all the questions!</string>
+    <string name="main_activity_last_chance_revisit_or_score">
+        Looks like you skipped at least one question.
+        \n\nYou can press \'Revisit\' to try those skipped questions again.
+        \n\n(Otherwise, if you know you still don\'t know, you can just go ahead and press \'Score my answers!\' to see how you did)
     </string>
 
 </resources>
