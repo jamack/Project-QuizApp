@@ -343,7 +343,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@color/app_main"
-            android:onClick="launchQuiz"
+            android:onClick="launchStartQuiz"
             android:text="@string/activity_main_launch_quiz"
             android:visibility="visible" />
 
@@ -370,7 +370,7 @@
             android:layout_marginRight="4dp"
             android:layout_weight="1"
             android:background="@color/app_accent"
-            android:onClick="revisitQuestions"
+            android:onClick="launchRevisitQuestions"
             android:text="@string/activity_main_button_revisit"
             android:visibility="gone" />
 

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     TriviaEntry[] questionArray = new TriviaEntry[]{
             new CheckboxTrivia("Which of the following are fruit?", "carrot", "kiwi", "tomato", "buddha's claw", false, true, true, true),
             new RadiobutTrivia("Which river is the longest?", "Tigris", "Congo", "Danube", "Colorado", 2),
-            new TextTrivia("Which of the visible colors has the shortest wavelength?\n\n(Enter answer with all lowercase letters)", "violet"),
+            new TextTrivia("Which of the visible colors has the shortest wavelength?\n\n(Enter answer with all lowercase letters)", "violet")/*,
             new RadiobutTrivia("Which of these is the hardiest, toughest animal?", "Cockroach", "Hippopotamus", "Tardigrade", "Camel", 3),
             new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true),
             new RadiobutTrivia("Which of these companies is the oldest?", "CIGNA", "Dupont", "Colgate", "Jim Beam", 1),
@@ -38,10 +38,16 @@ public class MainActivity extends AppCompatActivity {
             new CheckboxTrivia("Which of the following are among the world's 5 most widely spoken languages?", "Bengali", "English", "Portuguese", "Arabic", false, true, false, true),
             new RadiobutTrivia("Which of these lakes is the largest - by volume?", "Lake Baikal", "Lake Michigan", "Lake Tanganikya", "Lake Superior", 1),
             new CheckboxTrivia("Which of the following are classes/categories of rock?", "Metamorphic", "Obsidian", "Igneous", "Sedimentary", true, false, true, true)
-    };
+    */};
+
+    // This global variable holds the current app display state, in the form of an integer. (I.e. which Views are on/offf, what text is shown, etc.).
+    // 0) Welcome 1) Q&A, first pass 2) Last chance 3) Q&A, revisit 4) Score
+    private int currentDisplay = 0;
+
 
     // These global variables will serve as shortcuts to the various Views. (Instead of using findViewById every time).
-    // will be initialized in the onCreate method, once the layout has been inflated.
+    // will be initialized in the onCreate method (or onConfigurationChanged method, if device has been rotated to another orientation)
+    // once the layout has been inflated.
     private LinearLayout iconBar; // Holds a reference to the LinearLayout container for the question icons
     private CardView aiCard; // Holds a reference to the answer/instructions CardView container
     private EditText aiEditText; // Holds a reference to the EditText view in the answer/instructions card text
@@ -84,7 +90,12 @@ public class MainActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
-        // Once the XML layout is inflated, fetch a URI Id for the question/message card and assign it to the qmText global variable
+        // Once the XML layout is inflated, create global reference variables for those Views that will be altered programatically.
+        createViewIdReferences();
+    }
+
+    private void createViewIdReferences() {
+        // Once the XML layout is inflated, fetch a URI Id for Views that will be altered programatically and assign them to global variables.
         iconBar = (LinearLayout) findViewById(R.id.icon_bar);
         aiCard = (CardView) findViewById(R.id.answer_instructions_card);
         qmText = (TextView) findViewById(R.id.question_message_card_text);
@@ -107,8 +118,12 @@ public class MainActivity extends AppCompatActivity {
         aiRadioButton04 = (RadioButton) findViewById(R.id.radiobutton_answer_04);
     }
 
-    // TODO: I AM ABLE TO MAINTAIN ACTIVITY STATE & MANUALLY SET THE LANDSCAPE LAYOUT, BUT NEED TO SWITCH THE LANDSCAPE LAYOUT
-    //  TODO: WHATEVER STAGE THE PORTRAIT LAYOUT IS IN...
+    // NOTE: SINCE I CAN'T YET FIGURE OUT THE CODE FOR SAVING & RELOADING OBJECTS (PARCELABLE, ETC.),
+    // THIS APP MANUALLY OVERRIDES THE ORIENTATION CONFIGURATION CHANGE IN THE MANIFEST FILE AND
+    // MANUALLY HANDLES THAT EVENT.
+    // The method below is triggered upon a change in orientation. Depending on the new orientation, it loads the corresponding
+    // XML layout. The Activity's state is still intact, but references to the Views have changed. They are refreshed and current
+    // content is then reloaded.
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -123,11 +138,47 @@ public class MainActivity extends AppCompatActivity {
             setContentView(R.layout.activity_main);
         }
 
+        // Once the XML layout is inflated, fetch fresh global reference variables for those Views that will be altered programatically.
+        createViewIdReferences();
+        Log.v("***TESTING***", "THE VALUE OF currentDisplay is : " + Integer.toString(currentDisplay));
+
+        // TODO: RESTORE CURRENT VIEWS, THEN REPOPULATE THEIR CONTENT. UPDATE ICONS TO REFLECT CURRENT PROGRESS.
+        switch (currentDisplay) {
+            case 0:
+                break;
+
+            case 1:
+                startQuiz();
+                break;
+
+            case 2:
+                Log.v("TESTING", "UPDATING RE-ORIENTED SCREEN - EXCUTING CODE IN CASE 2...");
+                findViewById(R.id.lets_go_button).setVisibility(View.GONE);
+                lastChance();
+                break;
+            case 3:
+                Log.v("TESTING", "UPDATING RE-ORIENTED SCREEN - EXCUTING CODE IN CASE 3...");
+                findViewById(R.id.lets_go_button).setVisibility(View.GONE);
+                revisitQuestions();
+                break;
+            case 4:
+                Log.v("TESTING", "UPDATING RE-ORIENTED SCREEN - EXCUTING CODE IN CASE 4...");
+                findViewById(R.id.lets_go_button).setVisibility(View.GONE);
+                totalCorrect = 0;
+                gradeQuiz();
+                break;
+        }
+
     }
 
-    // This method is called by the "Got it. Let's Go" button on the introduction screen.
-    // It populates the first question & answer(s) and swaps out the buttons.
-    public void launchQuiz(View view) {
+    // This method is used by the 'Got it. Let's Go!' button. 'Pass-through' to the startQuiz() method, since calling it from XML requires a View object for an argument, while Java doesn't need an argument.
+    public void launchStartQuiz(View view) {
+        v("MainActivity.java", "ENTERING THE startGradeQuiz() method...");
+        startQuiz();
+    }
+
+    // This method populates the first question & answer(s) and swaps out the buttons.
+    public void startQuiz() {
         // Swap out the buttons
         findViewById(R.id.lets_go_button).setVisibility(View.GONE);
         findViewById(R.id.skip_button).setVisibility(View.VISIBLE);
@@ -137,11 +188,14 @@ public class MainActivity extends AppCompatActivity {
         aiTextScrollView.setVisibility(View.GONE);
         aiText.setVisibility(View.GONE);
 
+        // Update variable holding display state.
+        currentDisplay = 1;
+
         // Call the nextQuestion method to load the first question
         nextQuestion();
     }
 
-    // This method is called by other methods. (launchQuiz, answerQuestion, etc.)
+    // This method is called by other methods. (startQuiz, answerQuestion, etc.)
     // It will load the next unanswered question and populate the question & answer(s).
     public void nextQuestion() {
         v("MainActivity.java", "ENTERING THE nextQuestion() method...");
@@ -149,9 +203,15 @@ public class MainActivity extends AppCompatActivity {
         // Check whether question has already been answered. If question has NOT been answered, proceed with loading the question/answer(s).
         // Operation will then wait until user presses one of the buttons.
         if (questionArray[questionIndex].wasAnswered == false) {
+            Log.v("*** TESTING ***", "Entering the wasAnswered == false conditional code...");
 
             // Show current question's icon as active
             fetchIconViewId().setBackground(getResources().getDrawable(R.drawable.icon_current));
+
+            // TODO: TROUBLESHOOT RELOADING Q&A'S IN LANDSCAPE ORIENTATION...
+            if (qmText != null) {
+                Log.v("*** TESTING ***", "The original qmText reference is still valid (not null)");
+            }
 
             // Load question text from the current trivia entry into the miCard TextView
             qmText.setText(questionArray[questionIndex].getQuestionText());
@@ -257,6 +317,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // TODO: ADD A TOAST METHOD TO LET USER KNOW WHETHER THEY'VE ANSWERED THE QUESTION CORRECTLY. IF NOT, SHOW CORRECT ANSWER.
     // This method is called by the "Confirm Answer!" button on a typical question screen.
     // It processes the user's answer for the current question & loads the next question & answer(s).
     public void answerQuestion(View view) {
@@ -370,12 +431,21 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.revisit_button).setVisibility(View.VISIBLE);
         findViewById(R.id.score_answers_button_last_chance).setVisibility(View.VISIBLE);
 
+        // Update variable holding display state.
+        currentDisplay = 2;
+
         // Reset the questionIndex global variable and call the nextQuestion() method. It will start cycling through the questions again, looking for skipped questions. (wasAnswered = 'false').
         questionIndex = 0;
     }
 
+    // This method is used by the 'Revisit...' button. 'Pass-through' to the revisitQuestions() method, since calling it from XML requires a View object for an argument, while Java doesn't need an argument.
+    public void launchRevisitQuestions(View view) {
+        v("MainActivity.java", "ENTERING THE launchRevisitQuestions() method...");
+        revisitQuestions();
+    }
+
     // This method is used by the 'Revisit...' button. It sets up the Views & Buttons for the second pass through the questions.
-    public void revisitQuestions(View view) {
+    public void revisitQuestions() {
         v("MainActivity.java", "ENTERING THE revisitQuestions() method...");
         // Turn off the Last Chance screen aiCard Text so that the Next Question views can be loaded
         aiTextScrollView.setVisibility(View.GONE);
@@ -388,6 +458,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.score_answers_button_revisit).setVisibility(View.VISIBLE);
         // TODO: Reconfiguring these buttons. CURRENTLY, APP CRASHES WHEN THE BUTTON BELOW IS PRESSED...
         //findViewById(R.id.confirm_answer_button).setVisibility(View.VISIBLE);
+
+        // Update variable holding display state.
+        currentDisplay = 3;
 
         // Call the nextQuestion() method to start cycling through all the questions again and load the first unanswered question
         nextQuestion();
@@ -405,18 +478,14 @@ public class MainActivity extends AppCompatActivity {
         iconBar.setVisibility(View.GONE);
         // TODO: Turn on the logo ImageView
 
-        //int totalCorrect = 0; // Create local variable to hold number of correct answers
-        // Loop through each question/answer object in questionArray and increase totalCorrect if the object's wasAnsweredCorrectly variable shows it was answered correctly ('true')
+        // Using the global variable totalCorrect to hold number of correct answers,
+        // loop through each question/answer object in questionArray and increase totalCorrect if the object's wasAnsweredCorrectly variable shows it was answered correctly ('true')
         for (int i = 0; i < questionArray.length; i++) {
             if (questionArray[i].wasAnsweredCorrectly == true) {
                 totalCorrect++;
             }
         }
         totalCorrectString = Integer.toString(totalCorrect);
-
-//        // Change out the qmCard TextView text with the results text
-//        qmText.setText("Wowzers!\nYou got " + totalCorrectString + " answers right\n\nout of " + Integer.toString(questionArray.length) + " questions!" +
-//                "\n\nThat's ");
 
         // Swap the question/message TextView out for the scoreMessage view (RelativeLayout w/ multiple LinearLayouts).
         qmText.setVisibility(View.GONE);
@@ -450,6 +519,9 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.score_answers_button_revisit).setVisibility(View.GONE);
         findViewById(R.id.revisit_button).setVisibility(View.GONE);
         findViewById(R.id.share_button).setVisibility(View.VISIBLE);
+
+        // Update variable holding display state.
+        currentDisplay = 4;
 
     }
 
