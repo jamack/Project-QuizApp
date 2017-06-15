@@ -30,9 +30,9 @@ public class MainActivity extends AppCompatActivity {
     TriviaEntry[] questionArray = new TriviaEntry[]{
             new CheckboxTrivia("Which of the following are fruit?", "carrot", "kiwi", "tomato", "buddha's claw", false, true, true, true),
             new RadiobutTrivia("Which river is the longest?", "Tigris", "Congo", "Danube", "Colorado", 2),
-            new TextTrivia("Which of the visible colors has the shortest wavelength?\n\n(Enter answer with all lowercase letters)", "violet")/*,
+            new TextTrivia("Which of the visible colors has the shortest wavelength?\n\n(Enter answer with all lowercase letters)", "violet"),
             new RadiobutTrivia("Which of these is the hardiest, toughest animal?", "Cockroach", "Hippopotamus", "Tardigrade", "Camel", 3),
-            new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true),
+            new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true)/*,
             new RadiobutTrivia("Which of these companies is the oldest?", "CIGNA", "Dupont", "Colgate", "Jim Beam", 1),
             new TextTrivia("What is the highest grossing movie of all time (adjusted for inflation)?\n\n(Enter answer with all lowercase letters)", "gone with the wind"),
             new CheckboxTrivia("Which of the following are among the world's 5 most widely spoken languages?", "Bengali", "English", "Portuguese", "Arabic", false, true, false, true),
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton aiRadioButton02; // Holds a reference to the second RadioButton answer in the answer/instructions card RadioGroup.
     private RadioButton aiRadioButton03; // Holds a reference to the third RadioButton answer in the answer/instructions card RadioGroup.
     private RadioButton aiRadioButton04; // Holds a reference to the fourth RadioButton answer in the answer/instructions card RadioGroup.
+    private View iconQ1; // Holds a reference to the 1st icon.
 
     // This global variable will track whether it is a user's first time through the questions ('true') or whether they are revisiting skipped questions ('false').
     private boolean isFirstPass = true;
@@ -116,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         aiRadioButton02 = (RadioButton) findViewById(R.id.radiobutton_answer_02);
         aiRadioButton03 = (RadioButton) findViewById(R.id.radiobutton_answer_03);
         aiRadioButton04 = (RadioButton) findViewById(R.id.radiobutton_answer_04);
+        iconQ1 = findViewById(R.id.icon_q1);
     }
 
     // NOTE: SINCE I CAN'T YET FIGURE OUT THE CODE FOR SAVING & RELOADING OBJECTS (PARCELABLE, ETC.),
@@ -132,7 +134,6 @@ public class MainActivity extends AppCompatActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
             setContentView(R.layout.activity_main_landscape_manually_set);
-            Log.v("MainActivity.java", "VARIABLE CHECK: questionIndex is currently: " + Integer.toString(questionIndex));
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
             setContentView(R.layout.activity_main);
@@ -141,8 +142,25 @@ public class MainActivity extends AppCompatActivity {
         // Once the XML layout is inflated, fetch fresh global reference variables for those Views that will be altered programatically.
         createViewIdReferences();
         Log.v("***TESTING***", "THE VALUE OF currentDisplay is : " + Integer.toString(currentDisplay));
+        Log.v("MainActivity.java", "VARIABLE CHECK: questionIndex is currently: " + Integer.toString(questionIndex));
 
-        // TODO: RESTORE CURRENT VIEWS, THEN REPOPULATE THEIR CONTENT. UPDATE ICONS TO REFLECT CURRENT PROGRESS.
+        // Restore the progress indicated by the icons
+        int i = 0;
+        while (questionArray[i].wasViewed == true) {
+            if (questionArray[i].wasAnswered == true) {
+                fetchIconViewId(i).setBackground(getResources().getDrawable(R.drawable.icon_answered));
+            } else if (questionArray[i].wasAnswered == false) {
+                fetchIconViewId(i).setBackground(getResources().getDrawable(R.drawable.icon_skipped));
+            } else {
+                fetchIconViewId(i).setBackground(getResources().getDrawable(R.drawable.icon_current));
+            }
+            i++;
+            if (i == questionArray.length) {
+                break;
+            }
+        }
+
+        // Restore previously displayed set of Views.
         switch (currentDisplay) {
             case 0:
                 break;
@@ -206,7 +224,10 @@ public class MainActivity extends AppCompatActivity {
             Log.v("*** TESTING ***", "Entering the wasAnswered == false conditional code...");
 
             // Show current question's icon as active
-            fetchIconViewId().setBackground(getResources().getDrawable(R.drawable.icon_current));
+            fetchIconViewId(questionIndex).setBackground(getResources().getDrawable(R.drawable.icon_current));
+
+            // Update the trivia entry Object's wasViewed field (inherited from TriviaEntry superclass) to 'true'
+            questionArray[questionIndex].wasViewed = true;
 
             // TODO: TROUBLESHOOT RELOADING Q&A'S IN LANDSCAPE ORIENTATION...
             if (qmText != null) {
@@ -363,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Change icon color to blue
-        fetchIconViewId().setBackground(getResources().getDrawable(R.drawable.icon_answered));
+        fetchIconViewId(questionIndex).setBackground(getResources().getDrawable(R.drawable.icon_answered));
 
         // Call the checkProgress() method to determine next action.
         checkProgress();
@@ -375,15 +396,15 @@ public class MainActivity extends AppCompatActivity {
         v("MainActivity.java", "ENTERING THE skipQuestion method...");
         // Change icon color to orange
         Drawable iconDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_skipped, null);
-        fetchIconViewId().setBackground(iconDrawable);
+        fetchIconViewId(questionIndex).setBackground(iconDrawable);
 
         // Call the checkProgress() method to determine next action.
         checkProgress();
     }
 
-    private View fetchIconViewId() {
+    private View fetchIconViewId(int arrayIndex) {
         // questionIndex is targeted at an array and starts with 0. To be clearer which icon we're targeting, add 1 to the value for this switch
-        switch (questionIndex + 1) {
+        switch (arrayIndex + 1) {
             case 1:
                 return findViewById(R.id.icon_q1);
             case 2:

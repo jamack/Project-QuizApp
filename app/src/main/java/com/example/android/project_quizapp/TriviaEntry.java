@@ -9,9 +9,13 @@ class TriviaEntry {
     // False until user input is entered with the "Confirm answer!" button. (booleans are False by default).
     // This will used to identify "skipped" answers that the user can return to.
     protected boolean wasAnswered = false;
+
     // Stores whether question was answered correctly. 'True' if correct, 'False' if incorrect.
     // Correct answers will be tallied at the end of the quiz.
     protected boolean wasAnsweredCorrectly;
+
+    protected boolean wasViewed;
+
     // Text of the question.
     private String questionText;
 
