@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             new RadiobutTrivia("Which river is the longest?", "Tigris", "Congo", "Danube", "Colorado", 2),
             new TextTrivia("Which of the visible colors has the shortest wavelength?", "violet"),
             new RadiobutTrivia("Which of these is the hardiest, toughest animal?", "Cockroach", "Hippopotamus", "Tardigrade", "Camel", 3),
-            new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true),
+            new CheckboxTrivia("Which of the following are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true),
             new RadiobutTrivia("Which of these companies is the oldest?", "CIGNA", "Dupont", "Colgate", "Jim Beam", 1),
             new TextTrivia("What is the highest grossing movie of all time (adjusted for inflation)?", "gone with the wind"),
             new CheckboxTrivia("Which of the following are among the world's 5 most widely spoken languages?", "Bengali", "English", "Portuguese", "Arabic", false, true, false, true),
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout iconBar; // Holds a reference to the LinearLayout container for the question icons
     private CardView aiCard; // Holds a reference to the answer/instructions CardView container
     private EditText aiEditText; // Holds a reference to the EditText view in the answer/instructions card text
+    private View aiCheckBoxScrollView; // Holds a reference to the question/messaage card ScrollView that contains the LinearLayout container for the checkboxes.
     private View aiCheckBoxContainer; // Holds a reference to the answer/instructions card LinearLayout that contains the CheckBox views.
     private CheckBox aiCheckBox01; // Holds a reference to first CheckBox answer in the answer/instructions card LinearLayout container group.
     private CheckBox aiCheckBox02; // Holds a reference to second CheckBox answer in the answer/instructions card LinearLayout container group.
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView qmScoreMessagePercentCorrect; // Holds a reference to the Score Message's percentage of correct answers for user.
     private View aiTextScrollView; // Holds a reference to the question/message card ScrollView that contains the Text View.
     private TextView aiText; // Holds a reference to the answer/instructions card text
+    private View aiRadioGroupScrollView; // Holds a reference to the question/messaage card ScrollView that contains the RadioGroup container for the radio buttons.
     private RadioGroup aiRadioGroup; // Holds a reference to the answer/instructions card RadioGroup (container for the Radio Buttons).
     private RadioButton aiRadioButton01; // Holds a reference to the first RadioButton answer in the answer/instructions card RadioGroup.
     private RadioButton aiRadioButton02; // Holds a reference to the second RadioButton answer in the answer/instructions card RadioGroup.
@@ -104,14 +106,16 @@ public class MainActivity extends AppCompatActivity {
         qmScoreMessageNumCorrect = (TextView) findViewById(R.id.score_message_number_correct_answers);
         qmScoreMessageTotalNumQuestions = (TextView) findViewById(R.id.score_message_total_number_question);
         qmScoreMessagePercentCorrect = (TextView) findViewById(R.id.score_message_percent_correct);
-        aiTextScrollView = findViewById(R.id.answer_instructions_card_scrollview);
+        aiTextScrollView = findViewById(R.id.answer_instructions_card_scrollview_textview);
         aiText = (TextView) findViewById(R.id.answer_instructions_card_text);
         aiEditText = (EditText) findViewById(R.id.answer_instructions_card_edittext);
+        aiCheckBoxScrollView = findViewById(R.id.answer_instructions_card_scrollview_checkbox);
         aiCheckBoxContainer = findViewById(R.id.answer_instructions_card_checkboxes);
         aiCheckBox01 = (CheckBox) findViewById(R.id.checkbox_answer_01);
         aiCheckBox02 = (CheckBox) findViewById(R.id.checkbox_answer_02);
         aiCheckBox03 = (CheckBox) findViewById(R.id.checkbox_answer_03);
         aiCheckBox04 = (CheckBox) findViewById(R.id.checkbox_answer_04);
+        aiRadioGroupScrollView = findViewById(R.id.answer_instructions_card_scrollview_radiobuttons);
         aiRadioGroup = (RadioGroup) findViewById(R.id.answer_instructions_card_radiobuttons);
         aiRadioButton01 = (RadioButton) findViewById(R.id.radiobutton_answer_01);
         aiRadioButton02 = (RadioButton) findViewById(R.id.radiobutton_answer_02);
@@ -239,7 +243,9 @@ public class MainActivity extends AppCompatActivity {
             if (questionArray[questionIndex] instanceof TextTrivia) { // Process the TextTrivia answer type...
                 // Turn on the EditText view in the answer/instructions card.
                 // Ensure RadioGroup and CheckBox container views are turned off.
+                aiCheckBoxScrollView.setVisibility(View.GONE);
                 aiCheckBoxContainer.setVisibility(View.GONE);
+                aiRadioGroupScrollView.setVisibility(View.GONE);
                 aiRadioGroup.setVisibility(View.GONE);
                 aiEditText.setVisibility(View.VISIBLE);
             } else if (questionArray[questionIndex] instanceof CheckboxTrivia) { // Process the CheckboxTrivia answer type...
@@ -261,7 +267,9 @@ public class MainActivity extends AppCompatActivity {
                 // Turn on the LinearLayout container view for the CheckBox views in the answer/instructions card.
                 // Ensure EditText and RadioGroup container views are turned off.
                 aiEditText.setVisibility(View.GONE);
+                aiRadioGroupScrollView.setVisibility(View.GONE);
                 aiRadioGroup.setVisibility(View.GONE);
+                aiCheckBoxScrollView.setVisibility(View.VISIBLE);
                 aiCheckBoxContainer.setVisibility(View.VISIBLE);
 
                 // create local variable that references the current question from the question array
@@ -282,7 +290,9 @@ public class MainActivity extends AppCompatActivity {
                 // Turn on the RadioButton views in the answer/instructions card.
                 // Ensure EditText and CheckBox container views are turned off.
                 aiEditText.setVisibility(View.GONE);
+                aiCheckBoxScrollView.setVisibility(View.GONE);
                 aiCheckBoxContainer.setVisibility(View.GONE);
+                aiRadioGroupScrollView.setVisibility(View.VISIBLE);
                 aiRadioGroup.setVisibility(View.VISIBLE);
 
                 // create local variable that references the current question from the question array
@@ -456,7 +466,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Turn off all the aiCard EditText, RadioGroup, & CheckBox LinearLayout container group views.
         aiEditText.setVisibility(View.GONE);
+        aiCheckBoxScrollView.setVisibility(View.GONE);
         aiCheckBoxContainer.setVisibility(View.GONE);
+        aiRadioGroupScrollView.setVisibility(View.GONE);
         aiRadioGroup.setVisibility(View.GONE);
 
         // Turn on the aiCard Text view.
@@ -540,7 +552,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Turn off all the aiCard EditText, RadioGroup, & CheckBox LinearLayout container group views.
         aiEditText.setVisibility(View.GONE);
+        aiCheckBoxScrollView.setVisibility(View.GONE);
         aiCheckBoxContainer.setVisibility(View.GONE);
+        aiRadioGroupScrollView.setVisibility(View.GONE);
         aiRadioGroup.setVisibility(View.GONE);
 
         // Turn on the aiCard Text view.
@@ -548,10 +562,7 @@ public class MainActivity extends AppCompatActivity {
         aiText.setVisibility(View.VISIBLE);
 
         // Add the sharing instruction text to the aiCard Text View
-        aiText.setText("Ok, smartypants," +
-                "\n\nLooks like you've got one more tough choice to make:" +
-                "\n\n1) Rest on your laurels." +
-                "\n\n2) Share your score with a friend and challenge them to top it!");
+        aiText.setText(getString(R.string.main_actitity_rest_on_laurels_or_share_message));
 
         // Swap out the buttons for the Sharing button
         findViewById(R.id.skip_button).setVisibility(View.GONE);
@@ -563,6 +574,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Update variable holding display state.
         currentDisplay = 4;
+
+        // NOTE: THIS TOAST IS TO SATISFY THE PROJECT RUBRIC. IT IS REDUNDANT & I OTHERWISE WOULD NOT SHOW IT.
+        String scoreToast = getString(R.string.activity_main_score_message_line02_pt1of3);
+        scoreToast += " " + totalCorrectString + " " + getString(R.string.activity_main_score_message_line02_pt3of3);
+        scoreToast += "\n" + getString(R.string.activity_main_score_message_line03_pt1of3);
+        scoreToast += " " + Integer.toString(questionArray.length) + " " + getString(R.string.activity_main_score_message_line03_pt3of3);
+        Toast.makeText(this, scoreToast, Toast.LENGTH_SHORT).show();
 
     }
 

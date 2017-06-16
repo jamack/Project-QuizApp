@@ -53,5 +53,11 @@
         \n\n(Otherwise, if you know you still don\'t know, you can just go ahead and press \'Score my answers!\' to see how you did).
         \n
     </string>
+    <string name="main_actitity_rest_on_laurels_or_share_message">
+        Ok, smartypants,
+        \n\nLooks like you\'ve got one more tough choice to make:
+        \n\n1) Rest on your laurels.
+        \n\n2) Share your score with a friend and challenge them to top it!
+    </string>
 
 </resources>

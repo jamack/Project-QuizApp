@@ -228,11 +228,12 @@
         android:layout_marginTop="4dp"
         android:layout_weight="1"
         android:elevation="3dp"
+        android:paddingBottom="8dp"
         card_view:cardCornerRadius="8dp">
 
         <!-- This allows the longer messages displayed int the TextView to scroll and not be cut off -->
         <ScrollView
-            android:id="@+id/answer_instructions_card_scrollview"
+            android:id="@+id/answer_instructions_card_scrollview_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fadeScrollbars="false">
@@ -261,69 +262,85 @@
             android:textSize="16sp"
             android:visibility="gone" />
 
-        <!-- This is the container view for the (4) checkbox multiple choice answers. Visibility initially set to 'gone'.
-            Set visibility to 'visible' for multiple choice questions & 'gone' for other answer types -->
-        <LinearLayout
-            android:id="@+id/answer_instructions_card_checkboxes"
+        <!-- This allows the possible answers to scroll and not be cut off on devices with really small screens -->
+        <ScrollView
+            android:id="@+id/answer_instructions_card_scrollview_checkbox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:fadeScrollbars="false">
+            <!-- This is the container view for the (4) checkbox multiple choice answers. Visibility initially set to 'gone'.
+                Set visibility to 'visible' for multiple choice questions & 'gone' for other answer types -->
+            <LinearLayout
+                android:id="@+id/answer_instructions_card_checkboxes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:visibility="gone">
 
-            <CheckBox
-                android:id="@+id/checkbox_answer_01"
-                style="@style/answer_instruction_card_checkbox_and_radiobutton"
-                android:text="@string/activity_main_checkbox01_placeholder_text" />
+                <CheckBox
+                    android:id="@+id/checkbox_answer_01"
+                    style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                    android:text="@string/activity_main_checkbox01_placeholder_text" />
 
-            <CheckBox
-                android:id="@+id/checkbox_answer_02"
-                style="@style/answer_instruction_card_checkbox_and_radiobutton"
-                android:text="@string/activity_main_checkbox02_placeholder_text" />
+                <CheckBox
+                    android:id="@+id/checkbox_answer_02"
+                    style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                    android:text="@string/activity_main_checkbox02_placeholder_text" />
 
-            <CheckBox
-                android:id="@+id/checkbox_answer_03"
-                style="@style/answer_instruction_card_checkbox_and_radiobutton"
-                android:text="@string/activity_main_checkbox03_placeholder_text" />
+                <CheckBox
+                    android:id="@+id/checkbox_answer_03"
+                    style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                    android:text="@string/activity_main_checkbox03_placeholder_text" />
 
-            <CheckBox
-                android:id="@+id/checkbox_answer_04"
-                style="@style/answer_instruction_card_checkbox_and_radiobutton"
-                android:text="@string/activity_main_checkbox04_placeholder_text" />
+                <CheckBox
+                    android:id="@+id/checkbox_answer_04"
+                    style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                    android:text="@string/activity_main_checkbox04_placeholder_text" />
 
-        </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
 
-        <!-- This is the container view for the (4) radio button "best choice" answers. Visibility initially set to 'gone'.
-            Set visibility to 'visible' for "best choice" questions & 'gone' for other answer types -->
-        <RadioGroup
-            android:id="@+id/answer_instructions_card_radiobuttons"
+        <!-- This allows the possible answers to scroll and not be cut off on devices with really small screens -->
+        <ScrollView
+            android:id="@+id/answer_instructions_card_scrollview_radiobuttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:fadeScrollbars="false">
+            <!-- This is the container view for the (4) radio button "best choice" answers. Visibility initially set to 'gone'.
+                Set visibility to 'visible' for "best choice" questions & 'gone' for other answer types -->
+            <RadioGroup
+                android:id="@+id/answer_instructions_card_radiobuttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="vertical"
+                android:paddingBottom="16dp"
+                android:visibility="gone">
 
-            <RadioButton
-                android:id="@+id/radiobutton_answer_01"
-                style="@style/answer_instruction_card_checkbox_and_radiobutton"
-                android:text="@string/activity_main_radiobutton01_placeholder_text" />
+                <RadioButton
+                    android:id="@+id/radiobutton_answer_01"
+                    style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                    android:text="@string/activity_main_radiobutton01_placeholder_text" />
 
-            <RadioButton
-                android:id="@+id/radiobutton_answer_02"
-                style="@style/answer_instruction_card_checkbox_and_radiobutton"
-                android:text="@string/activity_main_radiobutton02_placeholder_text" />
+                <RadioButton
+                    android:id="@+id/radiobutton_answer_02"
+                    style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                    android:text="@string/activity_main_radiobutton02_placeholder_text" />
 
-            <RadioButton
-                android:id="@+id/radiobutton_answer_03"
-                style="@style/answer_instruction_card_checkbox_and_radiobutton"
-                android:text="@string/activity_main_radiobutton03_placeholder_text" />
+                <RadioButton
+                    android:id="@+id/radiobutton_answer_03"
+                    style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                    android:text="@string/activity_main_radiobutton03_placeholder_text" />
 
-            <RadioButton
-                android:id="@+id/radiobutton_answer_04"
-                style="@style/answer_instruction_card_checkbox_and_radiobutton"
-                android:text="@string/activity_main_radiobutton04_placeholder_text" />
+                <RadioButton
+                    android:id="@+id/radiobutton_answer_04"
+                    style="@style/answer_instruction_card_checkbox_and_radiobutton"
+                    android:text="@string/activity_main_radiobutton04_placeholder_text" />
 
-        </RadioGroup>
+            </RadioGroup>
+        </ScrollView>
 
     </android.support.v7.widget.CardView>
 

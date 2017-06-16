@@ -19,7 +19,7 @@
     <!-- This is the button text color -->
     <color name="button_text">#FFFFFF</color>
 
-   <!-- This is the icon color for unviewed questions -->
+    <!-- This is the icon color for unviewed questions -->
     <color name="unviewed">#E0E0E0</color> <!-- TEMP gray color #E0E0E0 -->
 
 </resources>
