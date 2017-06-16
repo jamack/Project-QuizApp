@@ -30,15 +30,15 @@ public class MainActivity extends AppCompatActivity {
     TriviaEntry[] questionArray = new TriviaEntry[]{
             new CheckboxTrivia("Which of the following are fruit?", "carrot", "kiwi", "tomato", "buddha's claw", false, true, true, true),
             new RadiobutTrivia("Which river is the longest?", "Tigris", "Congo", "Danube", "Colorado", 2),
-            new TextTrivia("Which of the visible colors has the shortest wavelength?\n\n(Enter answer with all lowercase letters)", "violet"),
+            new TextTrivia("Which of the visible colors has the shortest wavelength?", "violet"),
             new RadiobutTrivia("Which of these is the hardiest, toughest animal?", "Cockroach", "Hippopotamus", "Tardigrade", "Camel", 3),
-            new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true)/*,
+            new CheckboxTrivia("Which of the folllowing are among the world's 5 largest cities (per city proper, NOT metropolitan area)?", "Karachi", "Tokyo", "Mumbai", "Lagos", true, false, false, true),
             new RadiobutTrivia("Which of these companies is the oldest?", "CIGNA", "Dupont", "Colgate", "Jim Beam", 1),
-            new TextTrivia("What is the highest grossing movie of all time (adjusted for inflation)?\n\n(Enter answer with all lowercase letters)", "gone with the wind"),
+            new TextTrivia("What is the highest grossing movie of all time (adjusted for inflation)?", "gone with the wind"),
             new CheckboxTrivia("Which of the following are among the world's 5 most widely spoken languages?", "Bengali", "English", "Portuguese", "Arabic", false, true, false, true),
             new RadiobutTrivia("Which of these lakes is the largest - by volume?", "Lake Baikal", "Lake Michigan", "Lake Tanganikya", "Lake Superior", 1),
             new CheckboxTrivia("Which of the following are classes/categories of rock?", "Metamorphic", "Obsidian", "Igneous", "Sedimentary", true, false, true, true)
-    */};
+    };
 
     // This global variable holds the current app display state, in the form of an integer. (I.e. which Views are on/offf, what text is shown, etc.).
     // 0) Welcome 1) Q&A, first pass 2) Last chance 3) Q&A, revisit 4) Score
@@ -132,10 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
             setContentView(R.layout.activity_main_landscape_manually_set);
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
             setContentView(R.layout.activity_main);
         }
 
@@ -348,6 +346,14 @@ public class MainActivity extends AppCompatActivity {
             String userAnswer = aiEditText.getText().toString();
             TextTrivia castTriviaEntry = (TextTrivia) questionArray[questionIndex]; // Downcast the TriviaEntry object to a TextTrivia object. (Class already checked!).
             castTriviaEntry.submitAnswer(userAnswer);
+
+            // Make a toast that either congratulates the user or shows what the answer actually is
+            if (questionArray[questionIndex].wasAnsweredCorrectly == true) {
+                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Hmmm, almost. The correct answer is:\n" + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
+            }
+
             aiEditText.setText("");
         } else if (questionArray[questionIndex] instanceof CheckboxTrivia) { // Process the RadiobutTrivia answer type...
 
@@ -365,6 +371,13 @@ public class MainActivity extends AppCompatActivity {
             // Pass the prepared boolean array to the CheckboxTrivia object's submitAnswer method.
             castTriviaEntry.submitAnswer(selectedAnswers);
 
+            // Make a toast that either congratulates the user or shows what the answer actually is
+            if (questionArray[questionIndex].wasAnsweredCorrectly == true) {
+                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Hmmm, almost. The correct answer is:\n" + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
+            }
+
         } else if (questionArray[questionIndex] instanceof RadiobutTrivia) { // Process the RadiobutTrivia answer type...
             RadiobutTrivia castTriviaEntry = (RadiobutTrivia) questionArray[questionIndex]; // Downcast the TriviaEntry object to a RadiobutTrivia object. (Class already checked!).
 
@@ -379,6 +392,13 @@ public class MainActivity extends AppCompatActivity {
                 castTriviaEntry.submitAnswer(3);
             } else if (returnedId == R.id.radiobutton_answer_04) {
                 castTriviaEntry.submitAnswer(4);
+            }
+
+            // Make a toast that either congratulates the user or shows what the answer actually is
+            if (questionArray[questionIndex].wasAnsweredCorrectly == true) {
+                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Hmmm, almost. The correct answer is:\n" + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
             }
 
         }

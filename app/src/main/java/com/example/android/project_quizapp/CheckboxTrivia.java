@@ -71,4 +71,16 @@ class CheckboxTrivia extends TriviaEntry {
 //        Log.v("CheckboxTrivia.java", "HAND-OFF TO CHECKBOXTRIVIA.JAVA SUCCESSFUL. Question was also answered correctly!");
     }
 
+    // "Getter" method to access the encapsulated correctAnswer field. Returns correct answer(s) in form of a String.
+    public String getAnswerString() {
+        String correctAnswerString = "";
+
+        for (int i = 0; i < 4; i++) {
+            if (correctAnswers[i] == true) {
+                correctAnswerString += possibleAnswers[i] + "\n";
+            }
+        }
+        return correctAnswerString;
+    }
+
 }
