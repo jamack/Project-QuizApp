@@ -53,4 +53,9 @@ class RadiobutTrivia extends TriviaEntry {
         }
     }
 
+    // "Getter" method to access the encapsulated correctAnswer field. Returns correct answer in form of a String.
+    public String getAnswerString() {
+        return possibleAnswers[correctAnswer - 1];
+    }
+
 }
