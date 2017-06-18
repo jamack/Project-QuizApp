@@ -60,7 +60,7 @@
         \n\n2) Share your score with a friend and challenge them to top it!
     </string>
     <string name="main_activity_answered_toast_congratulatory">Correct!</string>
-    <string name="main_activity_answered_toast_show_correct_answer">Hmmm, almost. The correct answer was:\n</string>
+    <string name="main_activity_answered_toast_show_correct_answer">Hmmm, almost. Correct answer was:\n</string>
     <string name="main_activity_score_intent_pt1of3">I just played \'OK, Smartypants!\' and got&#160;</string>
     <string name="main_activity_score_intent_pt2of3">&#160;questions right out of&#160;</string>
     <string name="main_activity_score_intent_pt3of3">.\n\nThink you can beat me, smartypants?</string>

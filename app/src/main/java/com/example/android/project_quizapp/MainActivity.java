@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
             if (questionArray[questionIndex].wasAnsweredCorrectly == true) {
                 Toast.makeText(this, R.string.main_activity_answered_toast_congratulatory, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, R.string.main_activity_answered_toast_show_correct_answer + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.main_activity_answered_toast_show_correct_answer) + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
             }
 
         } else if (questionArray[questionIndex] instanceof RadiobutTrivia) { // Process the RadiobutTrivia answer type...
@@ -393,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
             if (questionArray[questionIndex].wasAnsweredCorrectly == true) {
                 Toast.makeText(this, R.string.main_activity_answered_toast_congratulatory, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, R.string.main_activity_answered_toast_show_correct_answer + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.main_activity_answered_toast_show_correct_answer) + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
             }
 
         }
