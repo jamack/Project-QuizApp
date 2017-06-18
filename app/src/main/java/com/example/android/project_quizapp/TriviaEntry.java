@@ -40,11 +40,4 @@ class TriviaEntry {
         return questionText;
     }
 
-    /**
-     * Store state of question as having been answered (as opposed to skipped).
-     */
-    public void questionAnswered() {
-        this.wasAnswered = true;
-    }
-
 }

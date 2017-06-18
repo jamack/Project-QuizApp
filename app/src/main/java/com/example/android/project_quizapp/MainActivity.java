@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -45,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     // will be initialized in the onCreate method (or onConfigurationChanged method, if device has been rotated to another orientation)
     // once the layout has been inflated.
     private LinearLayout iconBar; // Holds a reference to the LinearLayout container for the question icons
-    private CardView aiCard; // Holds a reference to the answer/instructions CardView container
     private EditText aiEditText; // Holds a reference to the EditText view in the answer/instructions card text
     private View aiCheckBoxScrollView; // Holds a reference to the question/messaage card ScrollView that contains the LinearLayout container for the checkboxes.
     private View aiCheckBoxContainer; // Holds a reference to the answer/instructions card LinearLayout that contains the CheckBox views.
@@ -92,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
     private void createViewIdReferences() {
         // Once the XML layout is inflated, fetch a URI Id for Views that will be altered programatically and assign them to global variables.
         iconBar = (LinearLayout) findViewById(R.id.icon_bar);
-        aiCard = (CardView) findViewById(R.id.answer_instructions_card);
         qmText = (TextView) findViewById(R.id.question_message_card_text);
         qmScoreMessage = findViewById(R.id.question_message_card_score_message);
         qmScoreMessageNumCorrect = (TextView) findViewById(R.id.score_message_number_correct_answers);
