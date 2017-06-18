@@ -97,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
         createViewIdReferences();
     }
 
+    /**
+     * Creates references to frequently used layout views
+     * by finding their resource id and assigning it to previously declared global variables
+     */
     private void createViewIdReferences() {
         // Once the XML layout is inflated, fetch a URI Id for Views that will be altered programatically and assign them to global variables.
         iconBar = (LinearLayout) findViewById(R.id.icon_bar);
@@ -127,9 +131,15 @@ public class MainActivity extends AppCompatActivity {
     // NOTE: SINCE I CAN'T YET FIGURE OUT THE CODE FOR SAVING & RELOADING OBJECTS (PARCELABLE, ETC.),
     // THIS APP MANUALLY OVERRIDES THE ORIENTATION CONFIGURATION CHANGE IN THE MANIFEST FILE AND
     // MANUALLY HANDLES THAT EVENT.
-    // The method below is triggered upon a change in orientation. Depending on the new orientation, it loads the corresponding
-    // XML layout. The Activity's state is still intact, but references to the Views have changed. They are refreshed and current
-    // content is then reloaded.
+
+    /**
+     * Overrides onConfigurationChanged; triggered upon a change in orientation.
+     * Depending on the new orientation, it loads the corresponding XML layout.
+     * The Activity's state is still intact, but references to the Views have changed.
+     * They are refreshed and current content is then reloaded.
+     *
+     * @param newConfig
+     */
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -191,13 +201,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    // This method is used by the 'Got it. Let's Go!' button. 'Pass-through' to the startQuiz() method, since calling it from XML requires a View object for an argument, while Java doesn't need an argument.
+    /**
+     * 'Pass-through' to the startQuiz() method, since calling it from XML requires a View object for an argument,
+     * while Java doesn't need an argument.
+     * @param view Called by the 'Got it. Let's Go!' Button.
+     */
     public void launchStartQuiz(View view) {
         v("MainActivity.java", "ENTERING THE startGradeQuiz() method...");
         startQuiz();
     }
 
-    // This method populates the first question & answer(s) and swaps out the buttons.
+    /**
+     * Populates the first question & answer(s) and swaps out the buttons.
+     */
     public void startQuiz() {
         // Swap out the buttons
         findViewById(R.id.lets_go_button).setVisibility(View.GONE);
@@ -215,8 +231,10 @@ public class MainActivity extends AppCompatActivity {
         nextQuestion();
     }
 
-    // This method is called by other methods. (startQuiz, answerQuestion, etc.)
-    // It will load the next unanswered question and populate the question & answer(s).
+    /**
+     * Load the next unanswered question and populate the question & answer(s) text.
+     * Utilized by other methods such as startQuiz, answerQuestion, etc.
+     */
     public void nextQuestion() {
         v("MainActivity.java", "ENTERING THE nextQuestion() method...");
 
@@ -231,7 +249,6 @@ public class MainActivity extends AppCompatActivity {
             // Update the trivia entry Object's wasViewed field (inherited from TriviaEntry superclass) to 'true'
             questionArray[questionIndex].wasViewed = true;
 
-            // TODO: TROUBLESHOOT RELOADING Q&A'S IN LANDSCAPE ORIENTATION...
             if (qmText != null) {
                 Log.v("*** TESTING ***", "The original qmText reference is still valid (not null)");
             }
@@ -310,9 +327,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    // This method checks the user's progress through the quiz and directs flow accordingly.
-    // It is called by various methods including the nextQuestion, answerQuestion, and skipQuestion.
+    /**
+     * Checks the user's progress through the quiz and directs flow accordingly.
+     * Utilized by various methods including nextQuestion, answerQuestion, and skipQuestion.
+     */
     private void checkProgress() {
         v("MainActivity.java", "ENTERING THE checkProgress() method...");
         v("MainActivity.java", "The value of questionArray.length is: " + Integer.toString(questionArray.length));
@@ -345,10 +363,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    // TODO: ADD A TOAST METHOD TO LET USER KNOW WHETHER THEY'VE ANSWERED THE QUESTION CORRECTLY. IF NOT, SHOW CORRECT ANSWER.
-    // This method is called by the "Confirm Answer!" button on a typical question screen.
-    // It processes the user's answer for the current question & loads the next question & answer(s).
+    /**
+     * Processes the user's answer for the current question & loads the next question & answer(s).
+     * @param view Called by the "Confirm Answer!" button on a typical question screen.
+     */
     public void answerQuestion(View view) {
         v("MainActivity.java", "ENTERING THE answerQuestion() method...");
         // Determine which type of question has been answered & route the logic accordingly
@@ -359,9 +377,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Make a toast that either congratulates the user or shows what the answer actually is
             if (questionArray[questionIndex].wasAnsweredCorrectly == true) {
-                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.main_activity_answered_toast_congratulatory, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Hmmm, almost. The correct answer is:\n" + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.main_activity_answered_toast_show_correct_answer) + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
             }
 
             aiEditText.setText("");
@@ -420,8 +438,10 @@ public class MainActivity extends AppCompatActivity {
         checkProgress();
     }
 
-    // This method is called by the "Skip..." button on a typical question screen.
-    // It changes the question's icon to orange and moves on to the next question.
+    /**
+     * Changes the question's icon to orange and moves on to the next question.
+     * @param view Called by the "Skip..." button on a typical question screen.
+     */
     public void skipQuestion(View view) {
         v("MainActivity.java", "ENTERING THE skipQuestion method...");
         // Change icon color to orange
@@ -432,6 +452,12 @@ public class MainActivity extends AppCompatActivity {
         checkProgress();
     }
 
+    /**
+     * Provides a reference to a particular progress icon.
+     * @param arrayIndex Integer. Typically the questionIndex, but can be a loop iterator
+     *                   when refreshing icons after a screen orientation change.
+     * @return
+     */
     private View fetchIconViewId(int arrayIndex) {
         // questionIndex is targeted at an array and starts with 0. To be clearer which icon we're targeting, add 1 to the value for this switch
         switch (arrayIndex + 1) {
@@ -459,6 +485,11 @@ public class MainActivity extends AppCompatActivity {
         return findViewById(R.id.icon_q1); // CAN I SOMEHOW RETURN NULL OR CATCH AN EXCEPTION IF NOT ONE OF THE ABOVE VALUES? NOTIFY THE USER?
     }
 
+    /**
+     * Presents user with chance to revisit any questions they've skipped.
+     * Switches out Buttons and replaces Q&A's with a message and instructions.
+     * Triggered when the checkProgress method determines all questions have been acted upon and one or more were 'skipped'.
+     */
     private void lastChance() {
         Log.v("MainActivity.java", "ENTERING THE lastChance() method...");
         // Switch qmCard text to message that questions have been skipped.
@@ -491,13 +522,19 @@ public class MainActivity extends AppCompatActivity {
         questionIndex = 0;
     }
 
-    // This method is used by the 'Revisit...' button. 'Pass-through' to the revisitQuestions() method, since calling it from XML requires a View object for an argument, while Java doesn't need an argument.
+    /**
+     * 'Pass-through' to the revisitQuestions() method, since calling it from XML requires a View object for an argument,
+     * while Java doesn't need an argument.
+     * @param view Called by the 'Revisit...' button.
+     */
     public void launchRevisitQuestions(View view) {
         v("MainActivity.java", "ENTERING THE launchRevisitQuestions() method...");
         revisitQuestions();
     }
 
-    // This method is used by the 'Revisit...' button. It sets up the Views & Buttons for the second pass through the questions.
+    /**
+     * Sets up the Views & Buttons for the second pass through the questions.
+     */
     public void revisitQuestions() {
         v("MainActivity.java", "ENTERING THE revisitQuestions() method...");
         // Turn off the Last Chance screen aiCard Text so that the Next Question views can be loaded
@@ -509,7 +546,6 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.score_answers_button_last_chance).setVisibility(View.GONE);
         findViewById(R.id.confirm_answer_button).setVisibility(View.VISIBLE);
         findViewById(R.id.score_answers_button_revisit).setVisibility(View.VISIBLE);
-        // TODO: Reconfiguring these buttons. CURRENTLY, APP CRASHES WHEN THE BUTTON BELOW IS PRESSED...
         //findViewById(R.id.confirm_answer_button).setVisibility(View.VISIBLE);
 
         // Update variable holding display state.
@@ -519,12 +555,20 @@ public class MainActivity extends AppCompatActivity {
         nextQuestion();
     }
 
-    // This method is used by the 'Score my answers!' button. 'Pass-through' to the gradeQuiz() method, since calling it from XML requires a View object for an argument, while Java doesn't need an argument.
+    /**
+     * 'Pass-through' to the gradeQuiz() method, since calling it from XML requires a View object for an argument,
+     * while Java doesn't need an argument.
+     * @param view Called by the 'Score my answers!' button.
+     */
     public void launchGradeQuiz(View view) {
         v("MainActivity.java", "ENTERING THE launchGradeQuiz() method...");
         gradeQuiz();
     }
 
+    /**
+     * Scores quiz once user has answered all questions or passed on revisiting remaining questions.
+     * Sets up the screen by swapping out Buttons and replacing Q&A's with score message and sharing instructions.
+     */
     private void gradeQuiz() {
         v("MainActivity.java", "ENTERING THE gradeQuiz() method...");
         // Turn off the LinearLayout container view for the icon bar
@@ -548,7 +592,6 @@ public class MainActivity extends AppCompatActivity {
         qmScoreMessageNumCorrect.setText(totalCorrectString);
         qmScoreMessageTotalNumQuestions.setText(Integer.toString(questionArray.length));
         qmScoreMessagePercentCorrect.setText(Float.toString((int) ((float) totalCorrect / questionArray.length * 100)));
-
 
         // Turn off all the aiCard EditText, RadioGroup, & CheckBox LinearLayout container group views.
         aiEditText.setVisibility(View.GONE);
@@ -584,8 +627,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Creates a messaging Intent and populates it with the user's score and a message challenging a friend.
+     * @param view Called by the 'Share my score with a friend! button'.
+     */
     public void sendScore(View view) {
-        // TODO: NEED TO FIGURE OUT HOW TO PASS IN THE USER'S SCORE IF THIS METHOD IS CALLED FROM A BUTTON IN XML...
         Log.v("Mainactivity.java", "ENTERING THE sendScore() method...");
         Intent sendScoreIntent = new Intent(Intent.ACTION_SEND); // Per "JustJava experimentation, this code block should work...
         sendScoreIntent.setType("text/plain");

@@ -3,7 +3,8 @@ package com.example.android.project_quizapp;
 import android.util.Log;
 
 /**
- * Created by James on 5/23/2017.
+ * Subclass with fields/constructor/methods specific to the Pick-the-best-answer question type.
+ * Inherits from the TriviaEntry superclass.
  */
 
 class RadiobutTrivia extends TriviaEntry {
@@ -14,7 +15,18 @@ class RadiobutTrivia extends TriviaEntry {
     // Array representing each of the (4) answers. Correct answers are set to 'true'.
     private int correctAnswer;
 
-    // the RadiobutTrivia subclass has (1) constructor
+    /**
+     * Constructor for the RadiobutTrivia subclass. Extends TriviaEntry superclass.
+     *
+     * @param questionText  String. Text of the question. (Inherited).
+     * @param answer1Text   String. Text for the first possible answer.
+     * @param answer2Text   String. Text for the second possible answer.
+     * @param answer3Text   String. Text for the third possible answer.
+     * @param answer4Text   String. Text for the fourth possible answer.
+     * @param correctAnswer Integer. Number of the correct answer, from #1 - #4. (NOT corresponding array index position!).
+     *                      Code will display answers text based on array index position, but will compare/score answers
+     *                      based on numbering them 1 - 4.
+     */
     public RadiobutTrivia(String questionText, String answer1Text, String answer2Text, String answer3Text, String answer4Text,
                           int correctAnswer) {
         super(questionText);
@@ -27,18 +39,19 @@ class RadiobutTrivia extends TriviaEntry {
         this.correctAnswer = correctAnswer;
     }
 
-    // "Getter" method to access the encapsulated possibleAnswers field
+    /**
+     * "Getter" method to access the encapsulated possibleAnswers field.
+     * @return String Array.
+     */
     public String[] getPossibleAnswers() {
         return possibleAnswers;
     }
-
 
     /**
      * This method is called by the answerQuestion method in MainActivity.java.
      * It processes the user's answer by first updating the global variable to show the question was answered (i.e. not skipped),
      * then it checks UPDATE THIS ONCE I FIGURE OUT HOW TO PROCESS THE ANSWER!
      * updates the global variable for whether the question was answered correctly,
-     *
      * @param selectedAnswer Integer indicating which one of the (4) answers the user selected.
      */
     protected void submitAnswer(int selectedAnswer) {
@@ -53,7 +66,10 @@ class RadiobutTrivia extends TriviaEntry {
         }
     }
 
-    // "Getter" method to access the encapsulated correctAnswer field. Returns correct answer in form of a String.
+    /**
+     * "Getter" method to access the encapsulated correctAnswer field.
+     * @return String.
+     */
     public String getAnswerString() {
         return possibleAnswers[correctAnswer - 1];
     }

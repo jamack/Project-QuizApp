@@ -59,5 +59,7 @@
         \n\n1) Rest on your laurels.
         \n\n2) Share your score with a friend and challenge them to top it!
     </string>
+    <string name="main_activity_answered_toast_congratulatory">Correct!</string>
+    <string name="main_activity_answered_toast_show_correct_answer">Hmmm, almost. The correct answer was:\n</string>
 
 </resources>
