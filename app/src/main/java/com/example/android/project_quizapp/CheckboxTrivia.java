@@ -1,7 +1,5 @@
 package com.example.android.project_quizapp;
 
-import android.util.Log;
-
 /**
  * Subclass with fields/constructor/methods specific to the Multiple Choice question type.
  * Inherits from the TriviaEntry superclass.
@@ -45,6 +43,7 @@ class CheckboxTrivia extends TriviaEntry {
 
     /**
      * "Getter" method to access the encapsulated possibleAnswers field.
+     *
      * @return String Array.
      */
     public String[] getPossibleAnswers() {
@@ -59,6 +58,7 @@ class CheckboxTrivia extends TriviaEntry {
      * (For example, selectedAnswers[0] should have the same value as correctAnswers[0] and so forth). If any of the (4) pairings to NOT match,
      * then the user's answer is incorrect, the method 'breaks', and the global wasAnsweredCorrectly variable is NOT updated to 'true'.
      * Otherwise - if all user answers match the correct answers, the global variable IS updated to 'true'.
+     *
      * @param selectedAnswers Integer indicating which one of the (4) answers the user selected.
      */
     protected void submitAnswer(boolean[] selectedAnswers) {
@@ -73,12 +73,12 @@ class CheckboxTrivia extends TriviaEntry {
 
         // If all the user's answers correspond to the correct answers, the 'break' code in the above "if" statement is never executed and the following code runs.
         wasAnsweredCorrectly = true;
-        Log.v("CheckboxTrivia.java", "HAND-OFF TO CHECKBOXTRIVIA.JAVA SUCCESSFUL. Question was also answered correctly!");
 
     }
 
     /**
      * "Getter" method to access the encapsulated correctAnswer field. Returns correct answer(s) in form of a String.
+     *
      * @return String. Returns correct answer(s) as a single string with newlines (concatenated if multiple correct answers).
      */
     public String getAnswerString() {

@@ -1,6 +1,5 @@
 package com.example.android.project_quizapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -18,8 +16,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import static android.util.Log.v;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -70,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton aiRadioButton02; // Holds a reference to the second RadioButton answer in the answer/instructions card RadioGroup.
     private RadioButton aiRadioButton03; // Holds a reference to the third RadioButton answer in the answer/instructions card RadioGroup.
     private RadioButton aiRadioButton04; // Holds a reference to the fourth RadioButton answer in the answer/instructions card RadioGroup.
-    private View iconQ1; // Holds a reference to the 1st icon.
 
     // This global variable will track whether it is a user's first time through the questions ('true') or whether they are revisiting skipped questions ('false').
     private boolean isFirstPass = true;
@@ -85,13 +80,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Log.v("MainActivity.java", "EXECUTING THE onCreate METHOD!!");
-
-        // TODO: Once the XML layout is inflated, determine the screen width & adjust the icon spacing accordingly to maintain true circles
-        Context context = this;
-        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-        float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
 
         // Once the XML layout is inflated, create global reference variables for those Views that will be altered programatically.
         createViewIdReferences();
@@ -125,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         aiRadioButton02 = (RadioButton) findViewById(R.id.radiobutton_answer_02);
         aiRadioButton03 = (RadioButton) findViewById(R.id.radiobutton_answer_03);
         aiRadioButton04 = (RadioButton) findViewById(R.id.radiobutton_answer_04);
-        iconQ1 = findViewById(R.id.icon_q1);
     }
 
     // NOTE: SINCE I CAN'T YET FIGURE OUT THE CODE FOR SAVING & RELOADING OBJECTS (PARCELABLE, ETC.),
@@ -153,8 +140,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Once the XML layout is inflated, fetch fresh global reference variables for those Views that will be altered programatically.
         createViewIdReferences();
-        Log.v("***TESTING***", "THE VALUE OF currentDisplay is : " + Integer.toString(currentDisplay));
-        Log.v("MainActivity.java", "VARIABLE CHECK: questionIndex is currently: " + Integer.toString(questionIndex));
 
         // Restore the progress indicated by the icons
         int i = 0;
@@ -182,17 +167,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
 
             case 2:
-                Log.v("TESTING", "UPDATING RE-ORIENTED SCREEN - EXCUTING CODE IN CASE 2...");
                 findViewById(R.id.lets_go_button).setVisibility(View.GONE);
                 lastChance();
                 break;
             case 3:
-                Log.v("TESTING", "UPDATING RE-ORIENTED SCREEN - EXCUTING CODE IN CASE 3...");
                 findViewById(R.id.lets_go_button).setVisibility(View.GONE);
                 revisitQuestions();
                 break;
             case 4:
-                Log.v("TESTING", "UPDATING RE-ORIENTED SCREEN - EXCUTING CODE IN CASE 4...");
                 findViewById(R.id.lets_go_button).setVisibility(View.GONE);
                 totalCorrect = 0;
                 gradeQuiz();
@@ -207,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view Called by the 'Got it. Let's Go!' Button.
      */
     public void launchStartQuiz(View view) {
-        v("MainActivity.java", "ENTERING THE startGradeQuiz() method...");
         startQuiz();
     }
 
@@ -236,22 +217,16 @@ public class MainActivity extends AppCompatActivity {
      * Utilized by other methods such as startQuiz, answerQuestion, etc.
      */
     public void nextQuestion() {
-        v("MainActivity.java", "ENTERING THE nextQuestion() method...");
 
         // Check whether question has already been answered. If question has NOT been answered, proceed with loading the question/answer(s).
         // Operation will then wait until user presses one of the buttons.
         if (questionArray[questionIndex].wasAnswered == false) {
-            Log.v("*** TESTING ***", "Entering the wasAnswered == false conditional code...");
 
             // Show current question's icon as active
             fetchIconViewId(questionIndex).setBackground(getResources().getDrawable(R.drawable.icon_current));
 
             // Update the trivia entry Object's wasViewed field (inherited from TriviaEntry superclass) to 'true'
             questionArray[questionIndex].wasViewed = true;
-
-            if (qmText != null) {
-                Log.v("*** TESTING ***", "The original qmText reference is still valid (not null)");
-            }
 
             // Load question text from the current trivia entry into the miCard TextView
             qmText.setText(questionArray[questionIndex].getQuestionText());
@@ -332,13 +307,6 @@ public class MainActivity extends AppCompatActivity {
      * Utilized by various methods including nextQuestion, answerQuestion, and skipQuestion.
      */
     private void checkProgress() {
-        v("MainActivity.java", "ENTERING THE checkProgress() method...");
-        v("MainActivity.java", "The value of questionArray.length is: " + Integer.toString(questionArray.length));
-        v("MainActivity.java", "The value of questionIndex at current question is: " + Integer.toString(questionIndex));
-        v("MainActivity.java", "the value of isFirstPass at this point is: " + isFirstPass);
-        v("MainActivity.java", "the value of Question #1 wasAnswered at this point is: " + questionArray[0].wasAnswered);
-        v("MainActivity.java", "the value of Question #2 wasAnswered at this point is: " + questionArray[1].wasAnswered);
-        v("MainActivity.java", "the value of Question #3 wasAnswered at this point is: " + questionArray[2].wasAnswered);
 
         // Triggered if user is on the final question and this is the user's first time through the questions.
         if (isFirstPass == true && questionIndex == questionArray.length - 1) {
@@ -368,7 +336,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view Called by the "Confirm Answer!" button on a typical question screen.
      */
     public void answerQuestion(View view) {
-        v("MainActivity.java", "ENTERING THE answerQuestion() method...");
         // Determine which type of question has been answered & route the logic accordingly
         if (questionArray[questionIndex] instanceof TextTrivia) { // Process the TextTrivia answer type...
             String userAnswer = aiEditText.getText().toString();
@@ -401,9 +368,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Make a toast that either congratulates the user or shows what the answer actually is
             if (questionArray[questionIndex].wasAnsweredCorrectly == true) {
-                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.main_activity_answered_toast_congratulatory, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Hmmm, almost. The correct answer is:\n" + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.main_activity_answered_toast_show_correct_answer + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
             }
 
         } else if (questionArray[questionIndex] instanceof RadiobutTrivia) { // Process the RadiobutTrivia answer type...
@@ -424,9 +391,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Make a toast that either congratulates the user or shows what the answer actually is
             if (questionArray[questionIndex].wasAnsweredCorrectly == true) {
-                Toast.makeText(this, "Correct!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.main_activity_answered_toast_congratulatory, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Hmmm, almost. The correct answer is:\n" + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.main_activity_answered_toast_show_correct_answer + castTriviaEntry.getAnswerString(), Toast.LENGTH_LONG).show();
             }
 
         }
@@ -443,7 +410,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view Called by the "Skip..." button on a typical question screen.
      */
     public void skipQuestion(View view) {
-        v("MainActivity.java", "ENTERING THE skipQuestion method...");
         // Change icon color to orange
         Drawable iconDrawable = ResourcesCompat.getDrawable(getResources(), R.drawable.icon_skipped, null);
         fetchIconViewId(questionIndex).setBackground(iconDrawable);
@@ -491,7 +457,6 @@ public class MainActivity extends AppCompatActivity {
      * Triggered when the checkProgress method determines all questions have been acted upon and one or more were 'skipped'.
      */
     private void lastChance() {
-        Log.v("MainActivity.java", "ENTERING THE lastChance() method...");
         // Switch qmCard text to message that questions have been skipped.
         qmText.setText(R.string.main_activity_last_chance_first_pass_completed);
 
@@ -528,7 +493,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view Called by the 'Revisit...' button.
      */
     public void launchRevisitQuestions(View view) {
-        v("MainActivity.java", "ENTERING THE launchRevisitQuestions() method...");
         revisitQuestions();
     }
 
@@ -536,7 +500,6 @@ public class MainActivity extends AppCompatActivity {
      * Sets up the Views & Buttons for the second pass through the questions.
      */
     public void revisitQuestions() {
-        v("MainActivity.java", "ENTERING THE revisitQuestions() method...");
         // Turn off the Last Chance screen aiCard Text so that the Next Question views can be loaded
         aiTextScrollView.setVisibility(View.GONE);
         aiText.setVisibility(View.GONE);
@@ -561,7 +524,6 @@ public class MainActivity extends AppCompatActivity {
      * @param view Called by the 'Score my answers!' button.
      */
     public void launchGradeQuiz(View view) {
-        v("MainActivity.java", "ENTERING THE launchGradeQuiz() method...");
         gradeQuiz();
     }
 
@@ -570,10 +532,8 @@ public class MainActivity extends AppCompatActivity {
      * Sets up the screen by swapping out Buttons and replacing Q&A's with score message and sharing instructions.
      */
     private void gradeQuiz() {
-        v("MainActivity.java", "ENTERING THE gradeQuiz() method...");
         // Turn off the LinearLayout container view for the icon bar
         iconBar.setVisibility(View.GONE);
-        // TODO: Turn on the logo ImageView
 
         // Using the global variable totalCorrect to hold number of correct answers,
         // loop through each question/answer object in questionArray and increase totalCorrect if the object's wasAnsweredCorrectly variable shows it was answered correctly ('true')
@@ -632,16 +592,15 @@ public class MainActivity extends AppCompatActivity {
      * @param view Called by the 'Share my score with a friend! button'.
      */
     public void sendScore(View view) {
-        Log.v("Mainactivity.java", "ENTERING THE sendScore() method...");
         Intent sendScoreIntent = new Intent(Intent.ACTION_SEND); // Per "JustJava experimentation, this code block should work...
         sendScoreIntent.setType("text/plain");
-        sendScoreIntent.putExtra(Intent.EXTRA_TEXT, "I just played \'OK, Smartypants!\' and got " + totalCorrectString + " questions right out of " + questionArray.length + ". \n\n Think you can beat me, smartypants?");
+        sendScoreIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.main_activity_score_intent_pt1of3) + totalCorrectString
+                + getString(R.string.main_activity_score_intent_pt2of3) + questionArray.length + getString(R.string.main_activity_score_intent_pt3of3));
 
         if (sendScoreIntent.resolveActivity(getPackageManager()) != null) {
-            Log.v("MainActivity.java", "Executing the resolveActivity if statement code");
             startActivity(sendScoreIntent);
         } else {
-            Log.v("MainActivity.java", "resolveActivity if statement came back as null!");
+            Log.v("MainActivity.java", "resolveActivity \'if\' statement came back as null!");
         }
     }
 

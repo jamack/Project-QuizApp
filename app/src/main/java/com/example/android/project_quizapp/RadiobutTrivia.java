@@ -1,7 +1,5 @@
 package com.example.android.project_quizapp;
 
-import android.util.Log;
-
 /**
  * Subclass with fields/constructor/methods specific to the Pick-the-best-answer question type.
  * Inherits from the TriviaEntry superclass.
@@ -41,6 +39,7 @@ class RadiobutTrivia extends TriviaEntry {
 
     /**
      * "Getter" method to access the encapsulated possibleAnswers field.
+     *
      * @return String Array.
      */
     public String[] getPossibleAnswers() {
@@ -52,22 +51,22 @@ class RadiobutTrivia extends TriviaEntry {
      * It processes the user's answer by first updating the global variable to show the question was answered (i.e. not skipped),
      * then it checks UPDATE THIS ONCE I FIGURE OUT HOW TO PROCESS THE ANSWER!
      * updates the global variable for whether the question was answered correctly,
+     *
      * @param selectedAnswer Integer indicating which one of the (4) answers the user selected.
      */
     protected void submitAnswer(int selectedAnswer) {
-        Log.v("RadiobutTrivia.java", "ENTERING submitAnswer method for RadiobutTrivia object...");
         //set wasAnswered to 'true'
         wasAnswered = true;
 
         // This checks the number of the selected RadioButton against the number indicated by the question constructor as being the correct answer.
         if (selectedAnswer == correctAnswer) {
             wasAnsweredCorrectly = true;
-            Log.v("RadiobutTrivia.java", "HAND-OFF TO RADIOBUTTRIVIA.JAVA SUCCESSFUL. Question was also answered correctly!");
         }
     }
 
     /**
      * "Getter" method to access the encapsulated correctAnswer field.
+     *
      * @return String.
      */
     public String getAnswerString() {

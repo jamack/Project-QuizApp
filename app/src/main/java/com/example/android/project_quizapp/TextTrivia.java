@@ -1,7 +1,5 @@
 package com.example.android.project_quizapp;
 
-import android.util.Log;
-
 /**
  * Subclass with fields/constructor/methods specific to the Type-your-answer question type.
  * Inherits from the TriviaEntry superclass.
@@ -30,6 +28,7 @@ public class TextTrivia extends TriviaEntry {
      * It processes the user's answer by first updating the global variable to show the question was answered (i.e. not skipped),
      * then it checks whether the user's answer text matches the correct answer text and accordingly
      * updates the global variable for whether the question was answered correctly,
+     *
      * @param userAnswer Text that user input in the answer's EditText view.
      */
     protected void submitAnswer(String userAnswer) {
@@ -41,12 +40,12 @@ public class TextTrivia extends TriviaEntry {
         // LEARNING MOMENT: Comparing CONTENTS of the String objects. Using '==' compares the Objects themselves.
         if (userAnswer.toLowerCase().equals(correctAnswer.toLowerCase())) {
             wasAnsweredCorrectly = true;
-            Log.v("TextTrivia.java", "HAND-OFF TO TEXTRIVIA.JAVA SUCCESSFUL. Question was also answered correctly!");
         }
     }
 
     /**
      * "Getter" method to access the encapsulated correctAnswer field.
+     *
      * @return String.
      */
     public String getAnswerString() {
